@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection and Monitoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            margin: 20px auto;
+            width: 640px;
+            height: 480px;
+            background-color: #000;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        .status {
+            margin: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:disabled {
+            background-color: #999;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Face Detection and Monitoring</h1>
+        
+        <div class="video-container">
+            <img id="videoFeed" src="{{ url_for('video_feed') }}" alt="Live Video Stream">
+        </div>
+
+        <div class="status">
+            <p id="statusText">Detection status: <span id="detectionStatus">Loading...</span></p>
+            <button id="startBtn">Start Detection</button>
+            <button id="stopBtn" disabled>Stop Detection</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const startBtn = document.getElementById("startBtn");
+            const stopBtn = document.getElementById("stopBtn");
+            const detectionStatus = document.getElementById("detectionStatus");
+
+            // Fetch initial detection status
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.active) {
+                        detectionStatus.innerText = "Active";
+                        stopBtn.disabled = false;
+                        startBtn.disabled = true;
+                    } else {
+                        detectionStatus.innerText = "Inactive";
+                    }
+                });
+
+            // Start detection
+            startBtn.addEventListener("click", function () {
+                fetch('/start_detection')
+                    .then(response => response.json())
+                    .then(data => {
+                        detectionStatus.innerText = "Active";
+                        stopBtn.disabled = false;
+                        startBtn.disabled = true;
+                    });
+            });
+
+            // Stop detection
+            stopBtn.addEventListener("click", function () {
+                fetch('/stop_detection')
+                    .then(response => response.json())
+                    .then(data => {
+                        detectionStatus.innerText = "Inactive";
+                        stopBtn.disabled = true;
+                        startBtn.disabled = false;
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
