@@ -41,6 +41,7 @@ DHT dht(DHTPIN, DHT11);   //สั่งให้ใช้มอดูล DHT11 
 LiquidCrystal_I2C lcd(0x27, 16, 2); //Module IIC/I2C Interface บางรุ่นอาจจะใช้ 0x3f 
 
 //initial sensor delay time 
+unsigned long previousMillis = 0;
 unsigned long soilPreviousMillis = 0;
 unsigned long tempPreviousMillis = 0;
 unsigned long waterPreviousMillis = 0;
@@ -51,6 +52,7 @@ unsigned long debouncePreviousMillis = 0;
 unsigned long senttime = 0;
 unsigned long Active = 0;
 const unsigned long interval = 1000;  // 1 วินาที
+int step = 0;
 
 //initial state for PressA
 int checkState = 0; 
@@ -60,7 +62,7 @@ int Min_Soilmoisture = 50;
 int Max_Soilmoisture = 77;
 
 //initial water level value
-int water_low = 0;
+int water_low = 10;
 
 //initial Light active
 int Light_Active = 30;
@@ -88,8 +90,8 @@ void setup() {
   lcd.init();
   lcd.backlight(); // เปิด backlight
   lcd.home();
+  Timer1.initialize(1000000);
   wdt_enable(WDTO_8S);
-  Timer1.initialize(1000000); 
 
   dht.begin();      //สั่งให้ DHT11 ทำงาน
   pinMode(Soil, INPUT);
@@ -97,8 +99,6 @@ void setup() {
   pinMode(Light, INPUT);
 
 }
-
-
 
 //Check water sensor and print to lcd
 void check_water(float level) {
@@ -549,7 +549,7 @@ void Pump1active(float fMoisture, int Min_Soilmoisture ,int Max_Soilmoisture) {
 void Pump2active(float flevel ,int water_low) {   
     if(flevel < water_low){
       Serial.println("PUMP2ON");
-    }else if (flevel > 90 ){
+    }else if (flevel > 80 ){
       Serial.println("PUMP2OFF");
     }
   }
@@ -673,13 +673,41 @@ void loop() {
         break;
     }
 
-    if (millis() - Active >= 60000){
-      Pump1active(fMoisture, Min_Soilmoisture, Max_Soilmoisture);
-      Pump2active(flevel, water_low);
-      Lightactive(fLight, Light_Active);
-      Fanactive(t, Fan_Active);
-      Active = millis();
+  if (millis() - Active >= 60000) {
+    unsigned long currentMillis = millis(); // เก็บเวลา ณ ปัจจุบัน
+
+    // ตรวจสอบเวลาที่ผ่านไปแต่ละขั้นตอน
+    if (currentMillis - previousMillis >= 4000) { // ผ่านไปแล้ว 4 วินาที
+      previousMillis = currentMillis; // อัพเดตเวลาใหม่
+
+      switch (step) {
+        case 0:
+          Pump1active(fMoisture, Min_Soilmoisture, Max_Soilmoisture);
+          step++;
+          break;
+
+        case 1:
+          Pump2active(flevel, water_low);
+          step++;
+          break;
+
+        case 2:
+          Lightactive(fLight, Light_Active);
+          step++;
+          break;
+
+        case 3:
+          Fanactive(t, Fan_Active);
+          step++;
+          break;
+
+        case 4:
+          Active = millis(); // อัพเดต Active เมื่อจบทุกขั้นตอน
+          step = 0; // รีเซ็ตขั้นตอนกลับไปเริ่มต้นใหม่
+          break;
+      }
     }
+  }
 
     Serial.flush();
 
