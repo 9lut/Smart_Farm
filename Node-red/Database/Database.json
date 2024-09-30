@@ -1,0 +1,1329 @@
+[
+    {
+        "id": "bd58aae74727686e",
+        "type": "tab",
+        "label": "Database",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "57756f9d32ca1df0",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Smartfarm_DB",
+        "query": "SELECT * FROM Sensor_Data WHERE date = '23-09-2024'",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 2060,
+        "y": 320,
+        "wires": [
+            [
+                "d1494ddc8758c50a"
+            ]
+        ]
+    },
+    {
+        "id": "2d239e5b93d8a61e",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1840,
+        "y": 320,
+        "wires": [
+            [
+                "57756f9d32ca1df0"
+            ]
+        ]
+    },
+    {
+        "id": "d1494ddc8758c50a",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "ค่า",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2250,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "2d498f9fb76dd1bf",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Smartfarm_DB",
+        "query": "INSERT INTO Sensor_Data (\n    Id,\n    Humidity,\n    Temperature,\n    Soil_Moisture,\n    Water_Level,\n    Light_Sensor,\n    Date,\n    Time\n) VALUES (\n    3,\n    30.25,         -- Humidity\n    70.25,         -- Temperature\n    1023,          -- Soil_Moisture\n    102,           -- Water_Level\n    200,           -- Light_Sensor\n    '23/09/2567',  -- วันที่ในรูปแบบ dd/mm/yyyy\n    TO_CHAR(NOW(), 'HH24:MI:SS')   -- เวลาในรูปแบบ hr:mins:sec\n);\n",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 2060,
+        "y": 460,
+        "wires": [
+            [
+                "723437dfbefccc94"
+            ]
+        ]
+    },
+    {
+        "id": "7b6c29695919cd8f",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1840,
+        "y": 460,
+        "wires": [
+            [
+                "2d498f9fb76dd1bf"
+            ]
+        ]
+    },
+    {
+        "id": "723437dfbefccc94",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "ค่า",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2250,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9530c3eeb6f5aa1a",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "name": "Showtable_DB",
+        "query": "SELECT * FROM Sensor_Data;\n",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 2040,
+        "y": 560,
+        "wires": [
+            [
+                "901d083b59d38ade"
+            ]
+        ]
+    },
+    {
+        "id": "a8bc771ab8f9fedc",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1820,
+        "y": 560,
+        "wires": [
+            [
+                "9530c3eeb6f5aa1a"
+            ]
+        ]
+    },
+    {
+        "id": "901d083b59d38ade",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "name": "ค่า",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2230,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "e08b2380682a7598",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "name": "Insert2DB",
+        "query": "INSERT INTO Sensor_Data (\n    Id,\n    Humidity,\n    Temperature,\n    Soil_Moisture,\n    Water_Level,\n    Light_Sensor,\n    Date,\n    Time\n) VALUES (\n    $1,\n    $2,\n    $3,\n    $4,\n    $5,\n    $6,\n    $7,\n    $8   \n);\n",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 900,
+        "y": 460,
+        "wires": [
+            [
+                "459aa77425f09c39"
+            ]
+        ]
+    },
+    {
+        "id": "459aa77425f09c39",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "name": "ค่าจากที่ส่งไปยัง DB",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1090,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9eb88616507fca43",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Prepare_Data",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แสดงข้อมูล serial output ใน Debug Log เพื่อให้ตรวจสอบ\n// node.warn(`Received data: ${data}`);\nlet currentId = flow.get(\"sensorId\") || 193;\n\n// อ่านค่าที่เก็บไว้ชั่วคราวจาก flow context\nlet sensorData = flow.get(\"sensorData\") || {\n    Id: currentId,\n    Humidity: null,\n    Temperature: null,\n    Soil_Moisture: null,\n    Water_Level: null,\n    Light: null\n};\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// แสดงแต่ละบรรทัดที่ได้มาใน Debug Log เพื่อตรวจสอบ\nlines.forEach(line => {\n    const [key, value] = line.split(\":\").map(item => item.trim());\n    const numericValue = parseFloat(value);\n\n    switch (key) {\n        case \"Humidity\":\n            sensorData.Humidity = isNaN(numericValue) ? null : numericValue;\n            break;\n        case \"Temperature\":\n            sensorData.Temperature = isNaN(numericValue) ? null : numericValue;\n            break;\n        case \"Soil_Moisture\":\n            sensorData.Soil_Moisture = isNaN(numericValue) ? null : Math.round(numericValue);\n            break;\n        case \"Water_Level\":\n            sensorData.Water_Level = isNaN(numericValue) ? null : Math.round(numericValue);\n            break;\n        case \"Light\":\n            sensorData.Light = isNaN(numericValue) ? null : Math.round(numericValue);\n            break;\n    }\n});\n\n// แสดงข้อมูลเซ็นเซอร์ที่อัปเดตล่าสุดใน Debug Log\n// node.warn(`Updated Sensor Data: ${JSON.stringify(sensorData)}`);\n\nlet now = new Date();\n\n// สร้างวันที่ในรูปแบบ 'DD/MM/YYYY'\nlet date = now.toLocaleDateString('th-TH', {\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric'\n});\n\n// สร้างเวลาในรูปแบบ 'HH24:MI:SS'\nlet time = now.toLocaleTimeString('th-TH', {\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false // ไม่ใช้เวลาแบบ 12 ชั่วโมง\n});\n\n// ตรวจสอบว่าข้อมูลครบทั้ง 5 ค่าหรือยัง\nif (sensorData.Humidity !== null &&\n    sensorData.Temperature !== null &&\n    sensorData.Soil_Moisture !== null &&\n    sensorData.Water_Level !== null &&\n    sensorData.Light !== null) {\n\n    // ส่งค่าเป็น array ของ 8 parameter ตามที่ PostgreSQL ต้องการ\n    msg.params = [\n        sensorData.Id,\n        sensorData.Humidity,\n        sensorData.Temperature,\n        sensorData.Soil_Moisture,\n        sensorData.Water_Level,\n        sensorData.Light,\n        date,\n        time\n    ];\n\n    // รีเซ็ตข้อมูลเซ็นเซอร์สำหรับการรับข้อมูลครั้งต่อไป\n    flow.set(\"sensorData\", {\n        Id: currentId + 1, // เพิ่ม ID ใหม่\n        Humidity: null,\n        Temperature: null,\n        Soil_Moisture: null,\n        Water_Level: null,\n        Light: null\n    });\n\n    currentId += 1;\n    flow.set(\"sensorId\", currentId);\n\n    // คืนค่า msg ที่มี params เพื่อส่งออก\n    msg.payload = msg.params;\n    return msg;\n} else {\n    // ถ้าข้อมูลยังไม่ครบ ให้เก็บข้อมูลที่ได้ล่าสุดไว้ใน flow context\n    flow.set(\"sensorData\", sensorData);\n    return null;  // ไม่ทำอะไรจนกว่าข้อมูลจะครบ\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 460,
+        "wires": [
+            [
+                "7f2815f324f0ddb5",
+                "81678daaa767e311"
+            ]
+        ]
+    },
+    {
+        "id": "9f58ef77439596d0",
+        "type": "serial in",
+        "z": "bd58aae74727686e",
+        "name": "In",
+        "serial": "88fcf6f197113f3c",
+        "x": 430,
+        "y": 540,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "cd9b6e0e9076d06d",
+        "type": "ui_form",
+        "z": "bd58aae74727686e",
+        "name": "Select Date Range",
+        "label": "เลือกวันที่",
+        "group": "ee5eb0efa187c9a9",
+        "order": 1,
+        "width": "13",
+        "height": "2",
+        "options": [
+            {
+                "label": "date",
+                "value": "date",
+                "type": "date",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "date": ""
+        },
+        "submit": "ตกลง",
+        "cancel": "",
+        "topic": "",
+        "topicType": "str",
+        "splitLayout": false,
+        "className": "",
+        "x": 210,
+        "y": 800,
+        "wires": [
+            [
+                "69974ddce54c8e2b"
+            ]
+        ]
+    },
+    {
+        "id": "69974ddce54c8e2b",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Modify Query",
+        "func": "let dateInput = msg.payload.date;\n\nif (dateInput) {\n    let date = new Date(dateInput);\n\n    // ตรวจสอบว่าการสร้าง Date ถูกต้องหรือไม่\n    if (!isNaN(date.getTime())) {\n        // แปลงวันที่เป็นรูปแบบ 'DD/MM/YYYY' \n        let formattedDate = date.toLocaleDateString('th-TH', {\n            day: '2-digit',\n            month: '2-digit',\n            year: 'numeric'\n        });\n\n        msg.params = [formattedDate];  // ใช้ array ในการเก็บพารามิเตอร์\n        msg.payload = msg.params;      // เก็บพารามิเตอร์ใน payload\n        return msg;\n    } else {\n        return { error: \"Invalid date format.\" };\n    }\n} else {\n    return { error: \"Date input is missing.\" };\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 800,
+        "wires": [
+            [
+                "4bdcce7b723b04e2",
+                "16a1e9cc99471fa4",
+                "2ea1f258fee9d717",
+                "0fa6c4c2efbfe239"
+            ]
+        ]
+    },
+    {
+        "id": "4bdcce7b723b04e2",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "name": "Fetch Data",
+        "query": "SELECT * FROM Sensor_Data WHERE date = $1;\n",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 610,
+        "y": 800,
+        "wires": [
+            [
+                "f7e36dfde490666e",
+                "62e7475e60785751",
+                "f6e22298ecc7c5a9",
+                "bf96b80b54b5ddd5",
+                "49d6d0440855e0a7",
+                "59934aee88f1ec3a",
+                "db072bce57f0d1b1"
+            ]
+        ]
+    },
+    {
+        "id": "f7e36dfde490666e",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data",
+        "func": "if (msg.payload.length > 0) {\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Humidity: row.humidity, // ตัวพิมพ์เล็กตรงกับข้อมูลที่เข้ามา\n        Temperature: row.temperature,\n        Soil_Moisture: row.soil_moisture,\n        Water_Level: row.water_level,\n        Light_Sensor: row.light_sensor,\n        Date: row.date,\n        Time: row.time\n    }));\n    return msg;\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 780,
+        "wires": [
+            [
+                "3bcc946044b2f4d6"
+            ]
+        ]
+    },
+    {
+        "id": "e726112fcaba5a8a",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Humidity:30 ",
+        "payloadType": "str",
+        "x": 110,
+        "y": 380,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "5f4c7db4082ada00",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Temperature:30 ",
+        "payloadType": "str",
+        "x": 100,
+        "y": 440,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "fbafa06cab340e99",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Soil_Moisture:30 ",
+        "payloadType": "str",
+        "x": 80,
+        "y": 500,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "4c5ce12ea05984d2",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Water_Level:30 ",
+        "payloadType": "str",
+        "x": 80,
+        "y": 560,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "5b39f1e832523d3c",
+        "type": "inject",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Light:30 ",
+        "payloadType": "str",
+        "x": 70,
+        "y": 640,
+        "wires": [
+            [
+                "9eb88616507fca43"
+            ]
+        ]
+    },
+    {
+        "id": "a5825694820faf16",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Prepare_Data ไม่ใช้",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แสดงข้อมูล serial output ใน Debug Log เพื่อให้ตรวจสอบ\nnode.warn(`Received data: ${data}`);\nlet currentId = flow.get(\"sensorId\") || 0;\n\n// เพิ่มค่า Id ขึ้นทีละ 1\n\n// อ่านค่าที่เก็บไว้ชั่วคราวจาก flow context\nlet sensorData = flow.get(\"sensorData\") || {\n    Id: currentId,\n    Humidity: null,\n    Temperature: null,\n    Soil_Moisture: null,\n    Water_Level: null,\n    Light: null\n};\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// แสดงแต่ละบรรทัดที่ได้มาใน Debug Log เพื่อตรวจสอบ\nlines.forEach(line => {\n    if (line.startsWith(\"Humidity:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        sensorData.Humidity = isNaN(value) ? null : value;\n    } else if (line.startsWith(\"Temperature:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        sensorData.Temperature = isNaN(value) ? null : value;\n    } else if (line.startsWith(\"Soil_Moisture:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        sensorData.Soil_Moisture = isNaN(value) ? null : value;\n    } else if (line.startsWith(\"Water_Level:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        sensorData.Water_Level = isNaN(value) ? null : value;\n    } else if (line.startsWith(\"Light:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        sensorData.Light = isNaN(value) ? null : value;\n    }\n});\n\n// แสดงข้อมูลเซ็นเซอร์ที่อัปเดตล่าสุดใน Debug Log\nnode.warn(`Updated Sensor Data: ${JSON.stringify(sensorData)}`);\n\n\nlet now = new Date();\n\n// สร้างวันที่ในรูปแบบ 'DD/MM/YYYY'\nlet date = now.toLocaleDateString('th-TH', {\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric'\n});\n\n// สร้างเวลาในรูปแบบ 'HH24:MI:SS'\nlet time = now.toLocaleTimeString('th-TH', {\n    hour: '2-digit',\n    minute: '2-digit',\n    second: '2-digit',\n    hour12: false // ไม่ใช้เวลาแบบ 12 ชั่วโมง\n});\n\n// ตรวจสอบว่าข้อมูลครบทั้ง 5 ค่าหรือยัง\nif (sensorData.Humidity !== null &&\n    sensorData.Temperature !== null &&\n    sensorData.Soil_Moisture !== null &&\n    sensorData.Water_Level !== null &&\n    sensorData.Light !== null) {\n   \n    msg.params = {\n        Id: sensorData.Id,\n        Humidity: sensorData.Humidity,\n        Temperature: sensorData.Temperature,\n        Soil_Moistur: sensorData.Soil_Moistur,\n        Water_Level: sensorData.Water_Level,\n        Light: sensorData.Light,\n        Date: date,\n        Time: time\n    };\n\n    // รีเซ็ตข้อมูลเซ็นเซอร์สำหรับการรับข้อมูลครั้งต่อไป\n    flow.set(\"sensorData\", {        \n        Humidity: null,\n        Temperature: null,\n        Soil_Moisture: null,\n        Water_Level: null,\n        Light: null\n    });\n\n    \n    currentId += 1;\n    flow.set(\"sensorId\", currentId);\n    return msg;\n} else {\n    // ถ้าข้อมูลยังไม่ครบ ให้เก็บข้อมูลที่ได้ล่าสุดไว้ใน flow context\n    flow.set(\"sensorData\", sensorData);\n    return null;  // ไม่ทำอะไรจนกว่าข้อมูลจะครบ\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1850,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "16a1e9cc99471fa4",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "name": "Modify Query",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "a998ab834fdfe938",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Modify Query",
+        "func": "let date = new Date(msg.payload.date); // แปลงเป็น Date object\n\n// ตรวจสอบว่า date เป็นวัตถุ Date ที่ถูกต้อง\nif (isNaN(date)) {\n    node.error(\"Invalid date value\"); // แสดงข้อผิดพลาดถ้า date ไม่ถูกต้อง\n    return null;\n}\n\n// แปลงวันที่เป็นรูปแบบที่ต้องการ\nlet formattedDate = date.toLocaleDateString('th-TH', {\n    day: '2-digit',\n    month: '2-digit',\n    year: 'numeric'\n});\n\nmsg.params = {\n    Date: formattedDate // ใช้วันที่ที่ถูกต้อง\n}\n\nmsg.payload = msg.params;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7f2815f324f0ddb5",
+        "type": "delay",
+        "z": "bd58aae74727686e",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 460,
+        "wires": [
+            [
+                "e08b2380682a7598"
+            ]
+        ]
+    },
+    {
+        "id": "62e7475e60785751",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart",
+        "func": "if (msg.payload.length > 0) {\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Humidity: row.humidity, // ใช้ตัวพิมพ์เล็กตามที่ได้รับ\n        Temperature: row.temperature,\n        Soil_Moisture: row.soil_moisture,\n        Water_Level: row.water_level,\n        Light_Sensor: row.light_sensor,\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // Prepare data for charts\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Humidity\",\n                data: msg.payload.map(row => row.Humidity), // นำค่าจาก Humidity\n                borderColor: \"rgba(255, 255, 255, 1)\", // สีขาว\n                backgroundColor: \"rgba(255, 255, 255, 1)\" // สีขาว\n            },\n            {\n                label: \"Temperature\",\n                data: msg.payload.map(row => row.Temperature),\n                borderColor: \"rgba(255, 99, 132, 1)\",\n                backgroundColor: \"rgba(255, 99, 132, 0.2)\"\n            },\n            {\n                label: \"Soil Moisture\",\n                data: msg.payload.map(row => row.Soil_Moisture),\n                borderColor: \"rgba(75, 192, 192, 1)\", // สีเขียว (เข้ม)\n                backgroundColor: \"rgba(75, 192, 192, 0.2)\" // สีเขียว (โปร่งแสง)\n            },\n            {\n                label: \"Water Level\",\n                data: msg.payload.map(row => row.Water_Level),\n                borderColor: \"rgba(54, 162, 235, 1)\", // สีของเส้นกราฟ\n                backgroundColor: \"rgba(54, 162, 235, 0.2)\" // สีพื้นหลังของเส้นกราฟ\n            },\n            {\n                label: \"Light Sensor\",\n                data: msg.payload.map(row => row.Light_Sensor),\n                borderColor: \"rgba(255, 255, 0, 1)\", // สีเหลืองเข้ม\n                backgroundColor: \"rgba(255, 255, 0, 1)\" // สีเหลืองเข้ม\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 840,
+        "wires": [
+            [
+                "534cd76a39432e6f"
+            ]
+        ]
+    },
+    {
+        "id": "3bcc946044b2f4d6",
+        "type": "ui_table",
+        "z": "bd58aae74727686e",
+        "group": "ee5eb0efa187c9a9",
+        "name": "Data_Table",
+        "order": 4,
+        "width": "13",
+        "height": "19",
+        "columns": [
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Humidity",
+                "title": "Humidity",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Temperature",
+                "title": "Temperature",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Soil_Moisture",
+                "title": "Soil Moisture",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Water_Level",
+                "title": "Water Level",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Light_Sensor",
+                "title": "Light Sensor",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Date",
+                "title": "Date",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Time",
+                "title": "Time",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1150,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "534cd76a39432e6f",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "da6c500c8878b9ba",
+        "name": "myChart",
+        "order": 0,
+        "width": "18",
+        "height": "8",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 950px; height: 100%;display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChart\" width=\"250\" height=\"250\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChart;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload) return;\n\n            const ctx = document.getElementById('myChart').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChart) {\n                myChart.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChart = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels,\n                    datasets: msg.payload.datasets\n                },\n                options: {\n                    responsive: true,\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1160,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "124d8e83fb54c124",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Modify Query",
+        "func": "let dateInput = msg.payload.date;\n\nif (dateInput) {\n    let date = new Date(dateInput);\n\n    // ตรวจสอบว่าการสร้าง Date ถูกต้องหรือไม่\n    if (!isNaN(date.getTime())) {\n        // แปลงวันที่เป็นรูปแบบ 'DD/MM/YYYY' \n        let formattedDate = date.toLocaleDateString('th-TH', {\n            day: '2-digit',\n            month: '2-digit',\n            year: 'numeric'\n        });\n\n        msg.params = [formattedDate];  // ใช้ array ในการเก็บพารามิเตอร์\n        msg.payload = msg.params;      // เก็บพารามิเตอร์ใน payload\n        return msg;\n    } else {\n        return { error: \"Invalid date format.\" };\n    }\n} else {\n    return { error: \"Date input is missing.\" };\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1830,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "669e2e96b57dfe78",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "group": "da6c500c8878b9ba",
+        "name": "myChart",
+        "order": 0,
+        "width": "15",
+        "height": "8",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div>\n    <canvas id=\"myChart\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChart;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload) return;\n\n            const ctx = document.getElementById('myChart').getContext('2d');\n\n            // Destroy the existing chart if it exists\n            if (myChart) {\n                myChart.destroy();\n            }\n\n            // Create a new chart\n            myChart = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels,\n                    datasets: msg.payload.datasets\n                },\n                options: {\n                    responsive: true,\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1820,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "73bb81b5d7f068d9",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "name": "Format Data Chart",
+        "func": "// Initialize variables for calculations\nlet humidityData = [];\nlet temperatureData = [];\nlet soilMoistureData = [];\nlet waterLevelData = [];\nlet lightSensorData = [];\n\n// Process incoming data\nmsg.payload.forEach(row => {\n    if (row.Humidity !== undefined) humidityData.push(row.Humidity);\n    if (row.Temperature !== undefined) temperatureData.push(row.Temperature);\n    if (row.Soil_Moisture !== undefined) soilMoistureData.push(row.Soil_Moisture);\n    if (row.Water_Level !== undefined) waterLevelData.push(row.Water_Level);\n    if (row.Light_Sensor !== undefined) lightSensorData.push(row.Light_Sensor);\n});\n\n\n// Prepare data for charts\nmsg.payload = {\n    labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ row.Date และ row.Time\n    datasets: [\n        {\n            label: \"Humidity\",\n            data: humidityData,\n            borderColor: \"rgba(75, 192, 192, 1)\",\n            backgroundColor: \"rgba(75, 192, 192, 0.2)\",\n        },\n        {\n            label: \"Temperature\",\n            data: temperatureData,\n            borderColor: \"rgba(255, 99, 132, 1)\",\n            backgroundColor: \"rgba(255, 99, 132, 0.2)\",\n        },\n        {\n            label: \"Soil Moisture\",\n            data: soilMoistureData,\n            borderColor: \"rgba(153, 102, 255, 1)\",\n            backgroundColor: \"rgba(153, 102, 255, 0.2)\",\n        },\n        {\n            label: \"Water Level\",\n            data: waterLevelData,\n            borderColor: \"rgba(255, 159, 64, 1)\",\n            backgroundColor: \"rgba(255, 159, 64, 0.2)\",\n        },\n        {\n            label: \"Light Sensor\",\n            data: lightSensorData,\n            borderColor: \"rgba(54, 162, 235, 1)\",\n            backgroundColor: \"rgba(54, 162, 235, 0.2)\",\n        }\n    ]\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1850,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f2a27584bbb51995",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "071502ad08d9ee16",
+        "name": "กราฟอุณหภูมิ",
+        "order": 0,
+        "width": "9",
+        "height": "5",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 450px; height: 250px; display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChartTemp\" style=\"width: 450px; height: 250px;\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChartTemp;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload || !msg.payload.labels || !msg.payload.datasets) return;\n\n            const ctx = document.getElementById('myChartTemp').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChartTemp) {\n                myChartTemp.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChartTemp = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels, // ใช้ labels ที่ส่งมา\n                    datasets: [{\n                        label: \"Temperature\", // ชื่อชุดข้อมูล\n                        data: msg.payload.datasets[0].data, // นำค่าจาก Temperature\n                        borderColor: \"rgba(255, 99, 132, 1)\",\n                        backgroundColor: \"rgba(255, 99, 132, 0.2)\"\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    maintainAspectRatio: false, // ปิดการบังคับอัตราส่วนของกราฟ\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 960,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7709dc038a27b74e",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "770f7527cf5b02ff",
+        "name": "กราฟความชื้น",
+        "order": 0,
+        "width": "9",
+        "height": "5",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 450px; height: 250px; display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChartHumidity\" style=\"width: 450px; height: 250px;\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChartHumidity;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload || !msg.payload.labels || !msg.payload.datasets) return;\n\n            const ctx = document.getElementById('myChartHumidity').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChartHumidity) {\n                myChartHumidity.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChartHumidity = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels, // ใช้ labels ที่ส่งมา\n                    datasets: [{\n                        label: \"Humidity\", // ชื่อชุดข้อมูล\n                        data: msg.payload.datasets[0].data, // เอาเฉพาะข้อมูล Humidity\n                        borderColor: \"rgba(255, 255, 255, 1)\", // สีขาว\n                        backgroundColor: \"rgba(255, 255, 255, 1)\" // สีขาว\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7201c54b4b9b7cae",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "5225ec0b937b1a17",
+        "name": "ความชื้นในดิน",
+        "order": 0,
+        "width": "9",
+        "height": "5",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 450px; height: 250px; display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChartSoilMoisture\" style=\"width: 450px; height: 250px;\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChartSoilMoisture;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload || !msg.payload.labels || !msg.payload.datasets) return;\n\n            const ctx = document.getElementById('myChartSoilMoisture').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChartSoilMoisture) {\n                myChartSoilMoisture.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChartSoilMoisture = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels, // ใช้ labels ที่ส่งมา\n                    datasets: [{\n                        label: \"Soil Moisture\", // ชื่อชุดข้อมูล\n                        data: msg.payload.datasets[0].data, // เอาเฉพาะข้อมูล Soil Moisture\n                        borderColor: \"rgba(75, 192, 192, 1)\", // สีเขียว (เข้ม)\n                        backgroundColor: \"rgba(75, 192, 192, 0.2)\" // สีเขียว (โปร่งแสง)\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "553ac4f6d8921d89",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "b6a78fd0a7a869d7",
+        "name": "ระดับน้ำ",
+        "order": 0,
+        "width": "9",
+        "height": "5",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 450px; height: 250px; display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChartWaterLevel\" style=\"width: 450px; height: 250px;\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChartWaterLevel;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload || !msg.payload.labels || !msg.payload.datasets) return;\n\n            const ctx = document.getElementById('myChartWaterLevel').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChartWaterLevel) {\n                myChartWaterLevel.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChartWaterLevel = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels, // ใช้ labels ที่ส่งมา\n                    datasets: [{\n                        label: \"Water Level\", // ชื่อชุดข้อมูล\n                        data: msg.payload.datasets[0].data, // นำค่าจาก Water_Level\n                        borderColor: \"rgba(54, 162, 235, 1)\", // สีของเส้นกราฟ\n                        backgroundColor: \"rgba(54, 162, 235, 0.2)\" // สีพื้นหลังของเส้นกราฟ\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    maintainAspectRatio: false, // ปิดการบังคับอัตราส่วนของกราฟ\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1160,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b40af33cf2eb2303",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "9c30605271326159",
+        "name": "ระดับแสง",
+        "order": 0,
+        "width": "9",
+        "height": "5",
+        "format": "<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>\n\n<div style=\"width: 450px; height: 250px; display: flex; justify-content: center; align-items: center;\">\n    <canvas id=\"myChartLightSensor\" style=\"width: 450px; height: 250px;\"></canvas>\n</div>\n\n<script>\n    (function(scope) {\n        let myChartLightSensor;\n\n        scope.$watch('msg', function(msg) {\n            if (!msg || !msg.payload || !msg.payload.labels || !msg.payload.datasets) return;\n\n            const ctx = document.getElementById('myChartLightSensor').getContext('2d');\n\n            // ทำลายกราฟที่มีอยู่แล้วถ้ามี\n            if (myChartLightSensor) {\n                myChartLightSensor.destroy();\n            }\n\n            // สร้างกราฟใหม่\n            myChartLightSensor = new Chart(ctx, {\n                type: 'line',\n                data: {\n                    labels: msg.payload.labels, // ใช้ labels ที่ส่งมา\n                    datasets: [{\n                        label: \"Light Sensor\", // ชื่อชุดข้อมูล\n                        data: msg.payload.datasets[0].data, // นำค่าจาก Light_Sensor\n                        borderColor: \"rgba(255, 255, 0, 1)\", // สีเหลืองเข้ม\n                        backgroundColor: \"rgba(255, 255, 0, 1)\" // สีเหลืองเข้ม\n                    }]\n                },\n                options: {\n                    responsive: true,\n                    maintainAspectRatio: false, // ปิดการบังคับอัตราส่วนของกราฟ\n                    scales: {\n                        x: {\n                            beginAtZero: true\n                        },\n                        y: {\n                            beginAtZero: true\n                        }\n                    }\n                }\n            });\n        });\n    })(scope);\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1160,
+        "y": 1140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6e22298ecc7c5a9",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart (Humidity)",
+        "func": "if (msg.payload.length > 0) {\n    // แค่เก็บค่า Humidity เท่านั้น\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Humidity: row.humidity, // ใช้ตัวพิมพ์เล็กตามที่ได้รับ\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // เตรียมข้อมูลสำหรับกราฟ\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Humidity\",\n                data: msg.payload.map(row => row.Humidity), // นำค่าจาก Humidity\n                borderColor: \"rgba(255, 255, 255, 1)\", // สีขาว\n                backgroundColor: \"rgba(255, 255, 255, 1)\" // สีขาว\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 900,
+        "wires": [
+            [
+                "7709dc038a27b74e"
+            ]
+        ]
+    },
+    {
+        "id": "bf96b80b54b5ddd5",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart (Temperature)",
+        "func": "if (msg.payload.length > 0) {\n    // แค่เก็บค่า Temperature เท่านั้น\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Temperature: row.temperature, // ใช้ตัวพิมพ์เล็กตามที่ได้รับ\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // เตรียมข้อมูลสำหรับกราฟเฉพาะ Temperature\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Temperature\",\n                data: msg.payload.map(row => row.Temperature),\n                borderColor: \"rgba(255, 99, 132, 1)\",\n                backgroundColor: \"rgba(255, 99, 132, 0.2)\"\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 960,
+        "wires": [
+            [
+                "f2a27584bbb51995"
+            ]
+        ]
+    },
+    {
+        "id": "49d6d0440855e0a7",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart (Soil_Moisture)",
+        "func": "if (msg.payload.length > 0) {\n    // แค่เก็บค่า Humidity เท่านั้น\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Soil_Moisture: row.soil_moisture,\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // เตรียมข้อมูลสำหรับกราฟ\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Soil Moisture\",\n                data: msg.payload.map(row => row.Soil_Moisture),\n                borderColor: \"rgba(153, 102, 255, 1)\",\n                backgroundColor: \"rgba(153, 102, 255, 0.2)\"\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 1020,
+        "wires": [
+            [
+                "7201c54b4b9b7cae"
+            ]
+        ]
+    },
+    {
+        "id": "59934aee88f1ec3a",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart (Water_Level)",
+        "func": "if (msg.payload.length > 0) {\n    // แค่เก็บค่า Water_Level เท่านั้น\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Water_Level: row.water_level, // ใช้ตัวพิมพ์เล็กตามที่ได้รับ\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // เตรียมข้อมูลสำหรับกราฟเฉพาะ Water_Level\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Water Level\",\n                data: msg.payload.map(row => row.Water_Level),\n                borderColor: \"rgba(54, 162, 235, 1)\", // สีของเส้นกราฟ\n                backgroundColor: \"rgba(54, 162, 235, 0.2)\" // สีพื้นหลังของเส้นกราฟ\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 1080,
+        "wires": [
+            [
+                "553ac4f6d8921d89"
+            ]
+        ]
+    },
+    {
+        "id": "db072bce57f0d1b1",
+        "type": "function",
+        "z": "bd58aae74727686e",
+        "name": "Format Data Chart (Light_Sensor)",
+        "func": "if (msg.payload.length > 0) {\n    // แค่เก็บค่า Light_Sensor เท่านั้น\n    msg.payload = msg.payload.map(row => ({\n        id: row.id,\n        Light_Sensor: row.light_sensor, // ใช้ตัวพิมพ์เล็กตามที่ได้รับ\n        Date: row.date,\n        Time: row.time\n    }));\n\n    // เตรียมข้อมูลสำหรับกราฟเฉพาะ Light_Sensor\n    msg.payload = {\n        labels: msg.payload.map(row => row.Date + ' ' + row.Time), // ใช้ Date และ Time\n        datasets: [\n            {\n                label: \"Light Sensor\",\n                data: msg.payload.map(row => row.Light_Sensor),\n                borderColor: \"rgba(255, 255, 0, 1)\", // สีเหลืองเข้ม\n                backgroundColor: \"rgba(255, 255, 0, 1)\" // สีเหลืองเข้ม\n            }\n        ]\n    };\n\n    return msg; // ส่งข้อมูลกราฟกลับ\n} else {\n    return { payload: [] }; // ถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 1140,
+        "wires": [
+            [
+                "b40af33cf2eb2303"
+            ]
+        ]
+    },
+    {
+        "id": "cb3734393f2c9d70",
+        "type": "ui_table",
+        "z": "bd58aae74727686e",
+        "d": true,
+        "group": "ee5eb0efa187c9a9",
+        "name": "Data_Table",
+        "order": 5,
+        "width": "13",
+        "height": "17",
+        "columns": [
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "7.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Humidity",
+                "title": "Humidity",
+                "width": "12.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Temperature",
+                "title": "Temperature",
+                "width": "12.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Soil_Moisture",
+                "title": "Soil Moisture",
+                "width": "12.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Water_Level",
+                "title": "Water Level",
+                "width": "12.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Light_Sensor",
+                "title": "Light Sensor",
+                "width": "12.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Date",
+                "title": "Date",
+                "width": "17%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "Time",
+                "title": "Time",
+                "width": "15.5%",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 1830,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "504e8dd555014b33",
+        "type": "comment",
+        "z": "bd58aae74727686e",
+        "name": "ดึงค่าจาก DB มาแสดง",
+        "info": "****ดึงค่าจาก DB มาแสดง",
+        "x": 230,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "81678daaa767e311",
+        "type": "debug",
+        "z": "bd58aae74727686e",
+        "name": "debug 95",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "2ea1f258fee9d717",
+        "type": "ui_text",
+        "z": "bd58aae74727686e",
+        "group": "ee5eb0efa187c9a9",
+        "order": 2,
+        "width": "13",
+        "height": "1",
+        "name": "",
+        "label": "เลือกวันที่ : ",
+        "format": "{{msg.payload[0]}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 600,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "0fa6c4c2efbfe239",
+        "type": "postgresql",
+        "z": "bd58aae74727686e",
+        "name": "Fetch Data AVG",
+        "query": "SELECT \n   AVG(Humidity) AS daily_avg_humidity,\n   AVG(Temperature) AS daily_avg_temp,\n   AVG(Soil_Moisture) AS daily_avg_soil_moisture,\n   AVG(Water_Level) AS daily_avg_water_level,\n   AVG(Light_Sensor) AS daily_avg_light_sensor\nFROM Sensor_Data WHERE date = $1 ;\n",
+        "postgreSQLConfig": "5ef2a0e180157205",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 420,
+        "y": 860,
+        "wires": [
+            [
+                "1d53c078e4844715"
+            ]
+        ]
+    },
+    {
+        "id": "1d53c078e4844715",
+        "type": "ui_template",
+        "z": "bd58aae74727686e",
+        "group": "ee5eb0efa187c9a9",
+        "name": "Data AVG",
+        "order": 3,
+        "width": "13",
+        "height": "3",
+        "format": "<style>\n  .data-container {\n    display: grid;\n    grid-template-columns: 1fr 1fr;\n    gap: 10px;\n    justify-content: center;\n    align-items: center;\n    font-family: 'Kanit', sans-serif;\n  }\n\n  .data-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 8px;\n    background-color: #f1f1f1;\n    border-radius: 8px;\n    text-align: center;\n    font-size: 12px;\n  }\n\n  .data-label {\n    font-weight: bold;\n    color: #333;\n    margin-left: 5px;\n  }\n\n  .data-value {\n    font-size: 12px;\n    color: #007bff;\n    margin-left: 5px;\n  }\n\n  .data-icon {\n    margin-right: 5px;\n    color: #007bff;\n  }\n</style>\n\n<script>\n  (function(scope) {\n    scope.$watch('msg.payload', function(data) {\n        if (data && data.length > 0) {\n            let avgData = data[0];\n\n            document.getElementById('humidity_avg').textContent = avgData.daily_avg_humidity !== null \n                ? avgData.daily_avg_humidity.toFixed(2) + \"%\" \n                : \"ไม่มีค่า\";\n\n            document.getElementById('temp_avg').textContent = avgData.daily_avg_temp !== null \n                ? avgData.daily_avg_temp.toFixed(2) + \"°C\" \n                : \"ไม่มีค่า\";\n\n            document.getElementById('soil_moisture_avg').textContent = avgData.daily_avg_soil_moisture !== null \n                ? parseFloat(avgData.daily_avg_soil_moisture).toFixed(2) + \"%\" \n                : \"ไม่มีค่า\";\n\n            document.getElementById('water_level_avg').textContent = avgData.daily_avg_water_level !== null \n                ? parseFloat(avgData.daily_avg_water_level).toFixed(2) + \"%\" \n                : \"ไม่มีค่า\";\n\n            document.getElementById('light_sensor_avg').textContent = avgData.daily_avg_light_sensor !== null \n                ? parseFloat(avgData.daily_avg_light_sensor).toFixed(2) + \"%\" \n                : \"ไม่มีค่า\";\n        }\n    });\n})(scope);\n</script>\n\n<div class=\"data-container\">\n  <div class=\"data-item\">\n    <i class=\"fa-solid fa-droplet data-icon\"></i>\n    <span class=\"data-label\">ความชื้น:</span>\n    <span class=\"data-value\" id=\"humidity_avg\">ไม่มีค่า</span>\n  </div>\n  <div class=\"data-item\">\n    <i class=\"fa-solid fa-temperature-half data-icon\"></i>\n    <span class=\"data-label\">อุณหภูมิ:</span>\n    <span class=\"data-value\" id=\"temp_avg\">ไม่มีค่า</span>\n  </div>\n  <div class=\"data-item\">\n    <i class=\"fa-solid fa-seedling data-icon\"></i>\n    <span class=\"data-label\">ความชื้นในดิน:</span>\n    <span class=\"data-value\" id=\"soil_moisture_avg\">ไม่มีค่า</span>\n  </div>\n  <div class=\"data-item\">\n    <i class=\"fa-solid fa-water data-icon\"></i>\n    <span class=\"data-label\">ระดับน้ำ:</span>\n    <span class=\"data-value\" id=\"water_level_avg\">ไม่มีค่า</span>\n  </div>\n  <div class=\"data-item\">\n    <i class=\"fa-solid fa-sun data-icon\"></i>\n    <span class=\"data-label\">แสง:</span>\n    <span class=\"data-value\" id=\"light_sensor_avg\">ไม่มีค่า</span>\n  </div>\n</div>\n\n<!-- อย่าลืมเพิ่มลิงก์ Font Awesome -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 620,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5ef2a0e180157205",
+        "type": "postgreSQLConfig",
+        "name": "smartfarmdb",
+        "host": "127.0.0.1",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "smartfarmdb",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "",
+        "maxFieldType": "num",
+        "idle": "",
+        "idleFieldType": "num",
+        "connectionTimeout": "",
+        "connectionTimeoutFieldType": "num",
+        "user": "hayday123",
+        "userFieldType": "str",
+        "password": "hayday123",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "88fcf6f197113f3c",
+        "type": "serial-port",
+        "name": "Arduino_out2",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "ee5eb0efa187c9a9",
+        "type": "ui_group",
+        "name": "ตารางแสดงค่า",
+        "tab": "27d969e2de96ca05",
+        "order": 1,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "da6c500c8878b9ba",
+        "type": "ui_group",
+        "name": "กราฟทั้งหมด",
+        "tab": "27d969e2de96ca05",
+        "order": 2,
+        "disp": true,
+        "width": "18",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "071502ad08d9ee16",
+        "type": "ui_group",
+        "name": "อุณหภูมิ",
+        "tab": "27d969e2de96ca05",
+        "order": 3,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "770f7527cf5b02ff",
+        "type": "ui_group",
+        "name": "ความชื้น",
+        "tab": "27d969e2de96ca05",
+        "order": 4,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5225ec0b937b1a17",
+        "type": "ui_group",
+        "name": "ความชื้นในดิน",
+        "tab": "27d969e2de96ca05",
+        "order": 5,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b6a78fd0a7a869d7",
+        "type": "ui_group",
+        "name": "ระดับน้ำ",
+        "tab": "27d969e2de96ca05",
+        "order": 6,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9c30605271326159",
+        "type": "ui_group",
+        "name": "ระดับแสง",
+        "tab": "27d969e2de96ca05",
+        "order": 7,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "27d969e2de96ca05",
+        "type": "ui_tab",
+        "name": "Report",
+        "icon": "data_usage",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    }
+]

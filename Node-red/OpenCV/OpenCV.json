@@ -1,0 +1,75 @@
+[
+    {
+        "id": "f83765e56a581918",
+        "type": "tab",
+        "label": "OpenCV",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d862eb08461c5016",
+        "type": "http request",
+        "z": "f83765e56a581918",
+        "name": "OpenCV",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.137.142:5000/video_feed",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "23bce8a3242e4a2d"
+            ]
+        ]
+    },
+    {
+        "id": "23bce8a3242e4a2d",
+        "type": "ui_template",
+        "z": "f83765e56a581918",
+        "group": "929c73f0debd8a5e",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "6",
+        "format": "<div style=\"text-align:center;\">\n    <h2>Live Video Stream</h2>\n    <img src=\"http://192.168.137.142:5000/video_feed\" alt=\"Video Stream\" style=\"width:300px; max-width:280px;\"/>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 640,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "929c73f0debd8a5e",
+        "type": "ui_group",
+        "name": "OpenCV",
+        "tab": "b059073edf59e633",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b059073edf59e633",
+        "type": "ui_tab",
+        "name": "ควบคุมอุปกรณ์",
+        "icon": "settings",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]

@@ -1,0 +1,679 @@
+[
+    {
+        "id": "304b76a557234b91",
+        "type": "tab",
+        "label": "Sensor",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8645f3c05e6fb741",
+        "type": "serial in",
+        "z": "304b76a557234b91",
+        "name": "In",
+        "serial": "4ec3ae4e5672af7c",
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "019194d52abbce64",
+                "9f719e14f2f384b0",
+                "22fcf66bfdb1b42f",
+                "eed2a26cae8b1cbb",
+                "8b69b12118f691ed",
+                "8ca2d460ce6f1afb"
+            ]
+        ]
+    },
+    {
+        "id": "ccf80b4ab94a45f6",
+        "type": "debug",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "แสดงค่าทั้งหมด",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1640,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "51cc9b6998b74405",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "แยกค่าระดับน้ำ",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Water level\nlet WaterValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Water_Level:\")) {\n        // ดึงค่า Water level ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        WaterValue = value;\n        // คำนวณค่าร้อยละและทำการปัดเศษเป็นทศนิยม 2 ตำแหน่ง\n        WaterValue = ((WaterValue / 1023) * 100).toFixed(2);\n    }\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// สร้าง payload ใหม่\nlet payload = {\n    WaterValue: WaterValue ,\n    time_date: time_date\n};\n\nmsg.payload = payload;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1640,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f51de9037f883379",
+        "type": "comment",
+        "z": "304b76a557234b91",
+        "name": "แสดงค่าเซนเซอร์",
+        "info": "## วัดระดับน้ำ",
+        "x": 220,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "eed2a26cae8b1cbb",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "name": "ความชื้นในอากาศ",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Humidity\nlet humiValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Humidity:\")) {\n        // ดึงค่า Humidity ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        humiValue = value;\n        humiValue = Math.round(humiValue); // ปัดเศษเป็นจำนวนเต็ม\n    }\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// ถ้ามีค่า Humidity ให้ส่งออกเฉพาะค่า\nif (humiValue !== null) {\n    msg.payload = {\n        Humidity: humiValue,\n        Time: time_date\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Humidity\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 360,
+        "wires": [
+            [
+                "eb348d95036f0a2a"
+            ]
+        ]
+    },
+    {
+        "id": "82587578f8bddeef",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "function 1",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// กำหนดตัวแปรเพื่อเก็บค่า\nlet Humidity = null;\nlet Temperature = null;\nlet Soli_Moisture = null;\nlet Water_Level = null;\nlet Light_Sensor = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Humidity:\")) {\n        Humidity = parseFloat(line.split(\":\")[1].trim());\n    } else if (line.startsWith(\"Temperature:\")) {\n        Temperature = parseFloat(line.split(\":\")[1].trim());\n    } else if (line.startsWith(\"Soli_Moisture:\")) {\n        Soli_Moisture = parseFloat(line.split(\":\")[1].trim());\n    } else if (line.startsWith(\"Water level:\")) {\n        Water_Level = parseFloat(line.split(\":\")[1].trim());\n        Water_Level = ((Water_Level / 1023) * 100).toFixed(2);\n    } else if (line.startsWith(\"Light Sensor:\")) {\n        Light_Sensor = parseFloat(line.split(\":\")[1].trim());\n    }\n});\n\n// ถ้าค่าต่างๆ ถูกตั้งค่า ให้สร้างคำสั่ง SQL สำหรับ Insert ข้อมูล\nif (Humidity !== null && Temperature !== null && Soli_Moisture !== null && Water_Level !== null && Light_Sensor !== null) {\n    msg.topic = `INSERT INTO sensor_data (humidity, temperature, soli_moisture, water_level, light_sensor, date, time) \n                 VALUES ($1, $2, $3, $4, $5, NOW(), NOW())`;\n    msg.payload = [Humidity, Temperature, Soli_Moisture, Water_Level, Light_Sensor];\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มีค่าที่ต้องการ\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1620,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8b69b12118f691ed",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "name": "ความชื้นในดิน",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Soil_Moisture\nlet moistureValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Soil_Moisture:\")) {\n        // ดึงค่า Soil_Moisture ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        moistureValue = value;\n        moistureValue = Math.round(moistureValue); // ปัดเศษเป็นจำนวนเต็ม\n    }\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// ถ้ามีค่า Soil_Moisture ให้ส่งออกเฉพาะค่า\nif (moistureValue !== null) {\n    msg.payload = {\n        Soil_Moisture: moistureValue,\n        Time: time_date\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Soil_Moisture\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 440,
+        "wires": [
+            [
+                "119a62c660337edc"
+            ]
+        ]
+    },
+    {
+        "id": "8ca2d460ce6f1afb",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "name": "แสง",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Light\nlet lightValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Light:\")) {\n        // ดึงค่า Light ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        lightValue = value;\n        // คำนวณค่าร้อยละและปัดเศษเป็นจำนวนเต็ม\n        lightValue = Math.round(lightValue); // ปัดเศษเป็นจำนวนเต็ม\n    }\n});\n\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// ถ้ามีค่า Light ให้ส่งออกเฉพาะค่า\nif (lightValue !== null) {\n    msg.payload = {\n        Light: lightValue,\n        Time: time_date\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Light\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 500,
+        "wires": [
+            [
+                "04d4b83a4fd7b668"
+            ]
+        ]
+    },
+    {
+        "id": "d3915ed16b366c93",
+        "type": "debug",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "ค่า",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "019194d52abbce64",
+        "type": "debug",
+        "z": "304b76a557234b91",
+        "name": "แสดงค่า Sensor",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "eb348d95036f0a2a",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "29b6f208f360bed5",
+        "name": "ความชื้น",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Humidity Information</title>\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n    <style>\n        .humiditys-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n        }\n\n        .humidity-container {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n        }\n\n        .icon-humidity {\n            font-size: 70px;\n            color: #f39c12;\n            margin-bottom: 10px;\n        }\n\n        /* กำหนดสีไอคอนตามความชื้นของอากาศ */\n        .icon-humidity-high {\n            color: blue;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .icon-humidity-normal {\n            color: orange;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .icon-humidity-low {\n            color: red;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .humidity {\n            font-size: 48px;\n            color: #f39c12;\n            margin: 10px 0;\n        }\n\n        /* กำหนดสีตามความชื้นของอากาศ */\n        .humidity-high {\n            color: blue;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .humidity-normal {\n            color: orange;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .humidity-low {\n            color: red;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .humidity-description {\n            font-size: 15px;\n            color: #ecf0f1;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"humiditys-container\">\n        <div class=\"humidity-container\">\n            <i class=\"fas fa-tint icon-humidity {{msg.payload.Humidity <= 25 ? 'icon-humidity-low' : (msg.payload.Humidity >= 80 ? 'icon-humidity-high' : 'icon-humidity-normal')}}\"></i>\n            <div\n                class=\"humidity {{msg.payload.Humidity <= 25 ? 'humidity-low' : (msg.payload.Humidity >= 80 ? 'humidity-high' : 'humidity-normal')}}\">\n                {{msg.payload.Humidity}} %\n            </div>\n            <div class=\"humidity-description\">อัพเดทล่าสุด {{msg.payload.Time}}</div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 820,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "119a62c660337edc",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "8b3f85f1414ce81d",
+        "name": "ความชื้นในดิน",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Soil Moisture Information</title>\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n    <style>\n        .moisture-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n        }\n\n        .moisture-box {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n        }\n\n        .icon-moisture {\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .icon-moisture-high {\n            color: #2ecc71;\n        }\n\n        .icon-moisture-normal {\n            color: orange;\n        }\n\n        .icon-moisture-low {\n            color: red;\n        }\n\n        .moisture-high {\n            color: #2ecc71;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .moisture-normal {\n            color: orange;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .moisture-low {\n            color: red;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .moisture-description {\n            font-size: 15px;\n            color: #ecf0f1;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"moisture-container\">\n        <div class=\"moisture-box\">\n            <!-- เงื่อนไขสำหรับการเลือกไอคอนตามค่าความชื้น -->\n            <i class=\"fas fa-seedling icon-moisture\n            {{msg.payload.Soil_Moisture <= 25 ? 'icon-moisture-low' : (msg.payload.Soil_Moisture >= 60 ? 'icon-moisture-high' : 'icon-moisture-normal')}}\"></i>\n            <div\n                class=\"moisture {{msg.payload.Soil_Moisture <= 25 ? 'moisture-low' : (msg.payload.Soil_Moisture >= 60 ? 'moisture-high' : 'moisture-normal')}}\">\n                {{msg.payload.Soil_Moisture}} %\n            </div>\n            <div class=\"moisture-description\">อัพเดทล่าสุด {{msg.payload.Time}}</div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 830,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "04d4b83a4fd7b668",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "2efc5e35ba4679c8",
+        "name": "วัดแสง",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Light Level Information</title>\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n    <style>\n        .light-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n        }\n\n        .light-box {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n        }\n\n        .icon-light {\n            font-size: 70px;\n            color: #fff700;\n            margin-bottom: 10px;\n        }\n\n        /* กำหนดสีไอคอนตามความชื้นของอากาศ */\n        .icon-high {\n            opacity: 100%;\n        }\n\n        .icon-normal {\n            opacity: 60%;\n        }\n\n        .icon-low {\n            opacity: 20%;\n        }\n\n        .light {\n            font-size: 48px;\n            color: #fff700;\n            margin: 10px 0;\n        }\n\n        .light-description {\n            font-size: 15px;\n            color: #ecf0f1;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"light-container\">\n        <div class=\"light-box\">\n            <i class=\"fas fa-sun icon-light {{msg.payload.Light <= 25 ? 'icon-low' : (msg.payload.Light >= 80 ? 'icon-high' : 'icon-normal')}}\"></i>\n            <div class=\"light\">\n                {{msg.payload.Light}} %\n            </div>\n            <div class=\"light-description\">อัพเดทล่าสุด {{msg.payload.Time}}</div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 810,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2cc22929a47b82b3",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "d783cb980c3979fc",
+        "name": "Node-Red Dashboard Custom CSS",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    :root {\n        font-family: 'Kanit', sans-serif;\n        color: white; /* ฟอนต์สีขาวสำหรับทุกองค์ประกอบ */\n    }\n    /* Main background */\n    body {\n        background: -webkit-linear-gradient(55deg,\n                #1e1e1e 0%,\n                #2d2d2d 50%,\n                #3b3b3b 100%);\n        font-family: 'Kanit', sans-serif;\n    }\n\n    /* Style for the card title in the dashboard */\n    .nr-dashboard-theme ui-card-panel p.nr-dashboard-cardtitle {\n        color: white !important; /* สีของข้อความในชื่อการ์ด */\n        font-size: 18px; /* ขนาดตัวอักษร */\n        font-weight: 200; /* ทำให้ข้อความเป็นตัวหนา */\n        margin: 10px 0; /* ระยะขอบบนและล่าง */\n        font-family: 'Kanit', sans-serif;\n        text-align: center; /* จัดแนวข้อความให้กึ่งกลาง */\n    }\n\n    /* Top bar */\n    body.nr-dashboard-theme md-toolbar,\n    body.nr-dashboard-theme md-content md-card {\n        background-color: #1e1e1e !important;\n        color: #FFFFFF !important;\n        font-family: 'Kanit', sans-serif;\n    }\n\n    /* Left menu */\n    /* Sidebar */\n    body.nr-dashboard-theme md-sidenav {\n        color: white !important;\n        background-color: #1e1e1e !important;\n    }\n\n    /* Hover selection */\n    a.md-no-style,\n    button.md-no-style {\n        border-radius: 10px !important;\n    }\n\n    /* Selected */\n    .nr-menu-item-active div button {\n        border-right: 4px solid #3b3b3b !important;\n    }\n\n    /* List */\n    body.nr-dashboard-theme md-sidenav div.md-list-item-inner {\n        color: white !important;\n        background-color: #2d2d2d !important;\n        border-radius: 10px !important;\n    }\n\n    /* Groups */\n    ui-card-panel {\n        background-color: rgba(30, 30, 30, 0.9) !important;\n        border-radius: 10px !important;\n    }\n\n    .md-list-item._md-button-wrap > div.md-button:first-child > .md-button:first-child{\n        font-family: 'Kanit', sans-serif;\n    }\n\n    .nr-dashboard-theme ui-card-panel {\n        border: none !important;\n    }\n\n    /* Name groups */\n    .nr-dashboard-theme ui-card-panel p.nr-dashboard-cardtitle {\n        color: rgba(255, 255, 255, 0.5) !important;\n    }\n\n    /* Buttons */\n    .nr-dashboard-theme .nr-dashboard-button .md-button {\n        background-color: rgba(255, 255, 255, 0.1) !important;\n    }\n\n    .md-button {\n        border-radius: 10px !important;\n    }\n\n    /* Dropdown menu */\n    .nr-dashboard-theme md-select-menu {\n        background-color: #2d2d2d !important;\n    }\n\n    .nr-dashboard-theme md-select-menu,\n    .nr-dashboard-theme md-select-menu md-option {\n        background-color: transparent !important;\n    }\n\n    .nr-dashboard-theme .md-select-menu-container {\n        border-radius: 10px !important;\n        border: none !important;\n    }\n\n    .nr-dashboard-theme md-select-menu md-option[selected] {\n        color: white !important;\n        background-color: #3b3b3b !important;\n    }\n\n    /* Template */\n    md-card>img,\n    md-card>md-card-header img,\n    md-card md-card-title-media img {\n        border-radius: 10px !important;\n    }\n\n    /* Color picker text BG */\n    .nr-dashboard-theme .color-picker-input-wrapper>input {\n        color: white !important;\n        background-color: #1e1e1e !important;\n    }\n    /* Dropdown menu */\n    .nr-dashboard-theme md-select-menu {\n        background-color: #2d2d2d !important; /* พื้นหลังของ dropdown */\n    }\n    \n    /* Dropdown items */\n    .nr-dashboard-theme md-select-menu md-option {\n        background-color: transparent !important; /* พื้นหลังของแต่ละ option */\n        color: white !important; /* สีของตัวเลือก */\n    }\n    \n    /* Selected option */\n    .nr-dashboard-theme md-select-menu md-option[selected] {\n        color: white !important; /* สีของตัวเลือกที่ถูกเลือก */\n        background-color: #3b3b3b !important; /* พื้นหลังของตัวเลือกที่ถูกเลือก */\n    }\n    \n    /* Dropdown container */\n    .nr-dashboard-theme .md-select-menu-container {\n        border-radius: 10px !important; /* มุมโค้งมนของเมนู dropdown */\n        border: none !important; /* ไม่มีขอบ */\n    }\n\n\n    /* Style for text elements in the dashboard template */\n    .nr-dashboard-template p {\n        color: black; /* สีของข้อความในแท็ก <p> */\n        font-size: 14px; /* ขนาดตัวอักษร */\n        line-height: 1.5; /* ความสูงของบรรทัด */\n        background-color: #3b3b3b;\n        font-family: 'Kanit', sans-serif;\n    }\n    \n    .nr-dashboard-template h1,\n    .nr-dashboard-template h2,\n    .nr-dashboard-template h3,\n    .nr-dashboard-template h4 {\n        color: black; /* สีของข้อความในหัวเรื่อง */\n        margin: 0; /* ลบระยะขอบ */\n    }\n    \n    .nr-dashboard-template h1 {\n        font-size: 24px; /* ขนาดตัวอักษรของ\n    <h1> */\n        }\n    \n    .nr-dashboard-template h2 {\n        font-size: 20px; /* ขนาดตัวอักษรของ <h2> */\n    }\n    \n    .nr-dashboard-template h3 {\n        font-size: 18px; /* ขนาดตัวอักษรของ <h3> */\n    }\n    \n    .nr-dashboard-template h4 {\n        font-size: 16px; /* ขนาดตัวอักษรของ <h4> */\n    }\n\n    .md-select-value > span:not(.md-select-icon) {\n        color: white !important; /* เปลี่ยนสีข้อความให้เป็นสีขาว */\n        font-family: 'Kanit', sans-serif;\n    }\n\n    .nr-dashboard-theme md-content .nr-dashboard-form form md-input-container .md-input {\n        font-family: 'Kanit', sans-serif;        \n        color: #ffffff/* สีของข้อความ */;\n    }\n\n    /* กราฟ */\n    .nr-dashboard-theme .nr-dashboard-gauge text {\n        color: #ffffff;\n        font-family: 'Kanit', sans-serif;\n    }\n\n    tspan {\n        fill: #ffffff; /* ใช้สีขาว */\n        font-family: 'Kanit', sans-serif;\n    }\n\n    p {\n        color: #ffffff;\n        font-family: 'Kanit', sans-serif;\n    }\n\n\n    /* Style for date and time input fields */\n    md-input-container input[type=date],\n    md-input-container input[type=datetime-local],\n    md-input-container input[type=month],\n    md-input-container input[type=time],\n    md-input-container input[type=week] {\n        background-color: #2d2d2d !important; /* Background color */\n        color: white !important; /* Text color */\n        border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Border color */\n        border-radius: 10px !important; /* Rounded corners */\n        padding: 10px; /* Padding for better spacing */\n        font-family: 'Kanit', sans-serif; /* Font family */\n    }\n    \n    /* Focus state for inputs */\n    md-input-container input[type=date]:focus,\n    md-input-container input[type=datetime-local]:focus,\n    md-input-container input[type=month]:focus,\n    md-input-container input[type=time]:focus,\n    md-input-container input[type=week]:focus {\n        border-color: #3b3b3b !important; /* Change border color on focus */\n        outline: none; /* Remove default outline */\n        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Add a subtle glow */\n    }\n    \n    /* Placeholder text style */\n    md-input-container input[type=date]::placeholder,\n    md-input-container input[type=datetime-local]::placeholder,\n    md-input-container input[type=month]::placeholder,\n    md-input-container input[type=time]::placeholder,\n    md-input-container input[type=week]::placeholder {\n        color: rgba(255, 255, 255, 0.5); /* Light placeholder color */\n    }\n\n    .md-button {\n    transition: background-color 0.3s ease, color 0.3s ease;\n    }\n    \n    .md-button:hover {\n    background-color: rgba(255, 255, 255, 0.2) !important; /* Change on hover */\n    }\n\n    .md-select-value > span:not(.md-select-icon),\n    .nr-dashboard-template p,\n    .nr-dashboard-template h1,\n    .nr-dashboard-template h2,\n    .nr-dashboard-template h3,\n    .nr-dashboard-template h4 {\n        color: white; /* ฟอนต์สีขาวในส่วนต่าง ๆ */\n    }\n    \n    /* ถ้าต้องการให้แน่ใจว่าทุก input ก็ใช้สีขาว */\n    md-input-container input[type=date],\n    md-input-container input[type=datetime-local],\n    md-input-container input[type=month],\n    md-input-container input[type=time],\n    md-input-container input[type=week] {\n        color: white !important; /* ฟอนต์สีขาวใน input */\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "global",
+        "className": "",
+        "x": 1640,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22fcf66bfdb1b42f",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "name": "อุณหภูมิ ",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Temperature\nlet temperature = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Temperature:\")) {\n        // ดึงค่า Temperature ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        temperature = value;\n    }\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// ถ้ามีค่า Temperature ให้ส่งออกเฉพาะค่า\nif (temperature !== null) {\n    msg.payload = {\n        Temp: temperature,\n        Time: time_date\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Temperature\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 300,
+        "wires": [
+            [
+                "ccf522bd0098e187"
+            ]
+        ]
+    },
+    {
+        "id": "9c849ef273d68846",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "แยกค่ามาแสดง",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ตัวแปรสำหรับค่า Temperature, Water_Level, Humidity, Soil_Moisture, Light\nlet tempValue = null;\nlet waterLevel = null;\nlet humidity = null;\nlet soilMoisture = null;\nlet light = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Temperature:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        tempValue = value;\n    }\n    if (line.startsWith(\"Water_Level:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        waterLevel = value;\n        // คำนวณค่าร้อยละและทำการปัดเศษเป็นทศนิยม 2 ตำแหน่ง\n        waterLevel = ((waterLevel / 1023) * 100).toFixed(2);\n    }\n    if (line.startsWith(\"Humidity:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        humidity = value;\n    }\n    if (line.startsWith(\"Soil_Moisture:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        soilMoisture = value;\n        soilMoisture = ((soilMoisture / 1023) * 100).toFixed(2);\n    }\n    if (line.startsWith(\"Light:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        light = value;\n        light = light.toFixed(2);\n    }\n});\n\n// ถ้ามีค่าอย่างน้อยหนึ่งค่า ให้ส่งออกค่าเหล่านั้นพร้อมกับเวลาปัจจุบัน\nif (tempValue !== null || waterLevel !== null || humidity !== null || soilMoisture !== null || light !== null) {\n    let now = new Date();\n    let day = now.getDate();\n    let month = now.getMonth() + 1;\n    let year = now.getFullYear() + 543;\n    let hours = now.getHours();\n    let minutes = now.getMinutes();\n    let seconds = now.getSeconds();\n    let formattedTime = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;\n\n    // ส่งค่าทั้งหมดออกไป\n    msg.payload = {\n        temperature: tempValue,\n        water_level: waterLevel,\n        humidity: humidity,\n        soil_moisture: soilMoisture,\n        light: light,\n        time: formattedTime\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มีข้อมูล\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1640,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f719e14f2f384b0",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "name": "Water_Level",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Water_Level\nlet waterLevelValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Water_Level:\")) {\n        // ดึงค่า Water_Level ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        waterLevelValue = value;\n        waterLevelValue = Math.round(waterLevelValue); // ปัดเศษเป็นจำนวนเต็ม\n\n    }\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// ถ้ามีค่า Water_Level ให้ส่งออกเฉพาะค่า\nif (waterLevelValue !== null) {\n    msg.payload = {\n        Water_Level: waterLevelValue,\n        Time: time_date\n    };\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Water_Level\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "8bf6d4da44f3f3cf"
+            ]
+        ]
+    },
+    {
+        "id": "8386b8150ff1d5b7",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "อุณหภูมิ ",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มี Temp\nlet tempValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Temperature:\")) {\n        // ดึงค่า Temp ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        tempValue = value;\n    }\n});\n\n// ถ้ามีค่า Temp ให้ส่งออกเฉพาะค่า\nif (tempValue !== null) {\n    msg.payload = tempValue;\n    return msg;\n} else {\n    return null; // ไม่คืนค่าอะไรถ้าไม่มี Temp\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1620,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8bf6d4da44f3f3cf",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "1aaa139456677c3e",
+        "name": "ระดับน้ำ",
+        "order": 0,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Water Level Information</title>\n    <style>\n        .level-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n            background-color: #1e1e1e;\n        }\n\n        .level-box {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n        }\n\n        .level-gauge {\n            height: 137.28px;            \n            width: 100px;\n            background-color: #ccc;\n            border-radius: 25px;\n            position: relative;\n            overflow: hidden;\n        }\n\n        .level-gauge .fill {\n            background: #3fd1f9;\n            /* background: linear-gradient(to top, #ca3838, #e6e600, #00b500); */\n            width: 100%;\n            position: absolute;\n            bottom: 0;\n            transition: height 0.5s ease;\n            border-radius: 25px;\n        }\n\n        .water-description {\n            margin-top: 10px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"level-container\">\n        <div class=\"level-box\">\n            <div class=\"level-gauge\">\n                <!-- ระดับน้ำจะถูกกำหนดด้วยความสูงตามค่า payload ที่ได้รับ -->\n                <div class=\"fill\" style=\"height: {{msg.payload.Water_Level}}%;\"></div>\n            </div>\n            <div class=\"water-description\">\n                ระดับน้ำ {{msg.payload.Water_Level}} %<br>\n                อัพเดทล่าสุด {{msg.payload.Time}}\n            </div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 820,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4fde2965fea72e7c",
+        "type": "function",
+        "z": "304b76a557234b91",
+        "d": true,
+        "name": "แยกค่า Sensor",
+        "func": "let data = msg.payload;\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// ค้นหาบรรทัดที่มีค่า Water_Level, Temperature, Humidity, Soil_Moisture, และ Light\nlet waterLevelValue = null;\nlet temperatureValue = null;\nlet humidityValue = null;\nlet soilMoistureValue = null;\nlet lightValue = null;\n\nlines.forEach(line => {\n    if (line.startsWith(\"Water_Level:\")) {\n        // ดึงค่า Water_Level ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        waterLevelValue = ((value / 1023) * 100).toFixed(2);\n    }\n\n    if (line.startsWith(\"Temperature:\")) {\n        // ดึงค่า Temperature ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        temperatureValue = value.toFixed(2);\n    }\n\n    if (line.startsWith(\"Humidity:\")) {\n        // ดึงค่า Humidity ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        humidityValue = Math.round((value / 1023) * 100);\n    }\n\n    if (line.startsWith(\"Soil_Moisture:\")) {\n        // ดึงค่า Soil_Moisture ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        soilMoistureValue = Math.round((value / 1023) * 100);\n    }\n\n    if (line.startsWith(\"Light:\")) {\n        // ดึงค่า Light ออกมา\n        let value = parseFloat(line.split(\":\")[1].trim());\n        lightValue = Math.round((value / 1023) * 100); // ปัดค่าให้เป็น int\n    }\n\n});\n\n// รับเวลาปัจจุบัน\nlet now = new Date();\nlet time_date = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');\n\n// สร้าง payload ใหม่\nmsg.payload = {\n    Water_Level: waterLevelValue,\n    Temp: temperatureValue,\n    Humidity: humidityValue,\n    Soil_Moisture: soilMoistureValue,\n    Light: lightValue,\n    Time: time_date\n};\n\n// คืนค่า msg พร้อม payload\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1640,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f8d25d86e64c2441",
+        "type": "debug",
+        "z": "304b76a557234b91",
+        "name": "debug 94",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1620,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "ccf522bd0098e187",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "group": "d2df541812967985",
+        "name": "อุณหภูมิ ",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Weather Information</title>\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap\">\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/justgage/1.3.4/justgage.min.js\"></script>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js\"></script>\n    <style>\n        .weathers-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n            background-color: #1e1e1e;\n        }\n\n        .weather-container {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n        }\n\n        .description {\n            font-size: 15px;\n            color: #ecf0f1;\n        }\n\n        .temperature {\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        /* กำหนดสีตามอุณหภูมิ */\n        .temperature-cold {\n            color: blue;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .temperature-normal {\n            color: orange;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .temperature-hot {\n            color: red;\n            font-size: 48px;\n            margin: 10px 0;\n        }\n\n        .icon-temperature {\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n        /* กำหนดสีไอคอนอุณหภูมิ */\n        .icon-temperature-cold {\n            color: blue;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .icon-temperature-normal {\n            color: orange;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n\n        .icon-temperature-hot {\n            color: red;\n            font-size: 70px;\n            margin-bottom: 10px;\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"weathers-container\">\n        <div class=\"weather-container\">\n            <!-- เปลี่ยน class ตามค่า temperature -->\n            <i class=\"fa-solid fa-temperature-quarter icon-temperature {{msg.payload.Temp <= 20 ? 'icon-temperature-cold' : (msg.payload.Temp >= 30 ? 'icon-temperature-hot' : 'icon-temperature-normal')}}\"></i>\n            <div id=\"temperature\"\n                class=\"temperature {{msg.payload.Temp <= 20 ? 'temperature-cold' : (msg.payload.Temp >= 30 ? 'temperature-hot' : 'temperature-normal')}}\">\n                {{msg.payload.Temp}} °C\n            </div>\n            <div class=\"description\">อัพเดทล่าสุด {{msg.payload.Time}}</div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 820,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fe4352f802b22ae0",
+        "type": "ui_template",
+        "z": "304b76a557234b91",
+        "d": true,
+        "group": "2efc5e35ba4679c8",
+        "name": "วัดแสง",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "format": "<!DOCTYPE html>\n<html lang=\"th\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Light Information</title>\n    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\">\n    <style>\n        .light-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 50vh;\n            background-color: #1e1e1e;\n            /* Background color for better contrast */\n        }\n\n        .light-box {\n            background-color: #2d2d2d;\n            border-radius: 15px;\n            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);\n            width: 250px;\n            text-align: center;\n            padding: 20px;\n            color: #ffffff;\n            font-family: 'Kanit', sans-serif;\n        }\n\n        .icon-light {\n            font-size: 70px;\n            color: #f1c40f;\n            /* Yellow color for light */\n            margin-bottom: 10px;\n        }\n\n        .light {\n            font-size: 48px;\n            color: #f1c40f;\n            /* Yellow color for light */\n            margin: 10px 0;\n        }\n\n        .light-description {\n            font-size: 15px;\n            color: #ffffff;\n            /* Adjusted color */\n        }\n    </style>\n</head>\n\n<body>\n    <div class=\"light-container\">\n        <div class=\"light-box\">\n            <i class=\"fas fa-sun icon-light\"></i> <!-- Light-related icon -->\n            <div class=\"light\">{{msg.payload.Light}} %</div> <!-- Assuming lux (lx) as the unit for light level -->\n            <div class=\"light-description\">อัพเดทล่าสุด {{msg.payload.Time}}</div>\n        </div>\n    </div>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1630,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "137c2aac9cd157fa",
+        "type": "inject",
+        "z": "304b76a557234b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"Water_Level\": 79,     \"Time\": \"26/09/2567 16:45:30\" }",
+        "payloadType": "json",
+        "x": 590,
+        "y": 40,
+        "wires": [
+            [
+                "8bf6d4da44f3f3cf"
+            ]
+        ]
+    },
+    {
+        "id": "e1568fa16eeaf368",
+        "type": "inject",
+        "z": "304b76a557234b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"Temp\": 31,     \"Time\": \"26/09/2567 16:45:30\" }",
+        "payloadType": "json",
+        "x": 590,
+        "y": 80,
+        "wires": [
+            [
+                "ccf522bd0098e187"
+            ]
+        ]
+    },
+    {
+        "id": "095322e232ae9584",
+        "type": "inject",
+        "z": "304b76a557234b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"Humidity\": 100,     \"Time\": \"26/09/2567 16:45:30\" }",
+        "payloadType": "json",
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "eb348d95036f0a2a"
+            ]
+        ]
+    },
+    {
+        "id": "d81e36f25035f0e8",
+        "type": "inject",
+        "z": "304b76a557234b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"Soil_Moisture\": 62,     \"Time\": \"26/09/2567 16:45:30\" }",
+        "payloadType": "json",
+        "x": 590,
+        "y": 160,
+        "wires": [
+            [
+                "119a62c660337edc"
+            ]
+        ]
+    },
+    {
+        "id": "274b3943db2da602",
+        "type": "inject",
+        "z": "304b76a557234b91",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{     \"Light\": 50,     \"Time\": \"26/09/2567 16:45:30\" }",
+        "payloadType": "json",
+        "x": 590,
+        "y": 200,
+        "wires": [
+            [
+                "04d4b83a4fd7b668"
+            ]
+        ]
+    },
+    {
+        "id": "4ec3ae4e5672af7c",
+        "type": "serial-port",
+        "name": "Arduino_In1",
+        "serialport": "/dev/ttyACM1",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "29b6f208f360bed5",
+        "type": "ui_group",
+        "name": "ความชื้นในอากาศ",
+        "tab": "dcf45ca7c8b3232b",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8b3f85f1414ce81d",
+        "type": "ui_group",
+        "name": "ความชื้นในดิน",
+        "tab": "dcf45ca7c8b3232b",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2efc5e35ba4679c8",
+        "type": "ui_group",
+        "name": "วัดแสง",
+        "tab": "dcf45ca7c8b3232b",
+        "order": 7,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d783cb980c3979fc",
+        "type": "ui_group",
+        "name": "Demo",
+        "tab": "0449b3b1fea99d52",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "1aaa139456677c3e",
+        "type": "ui_group",
+        "name": "วัดระดับน้ำ",
+        "tab": "dcf45ca7c8b3232b",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d2df541812967985",
+        "type": "ui_group",
+        "name": "อุณหภูมิ",
+        "tab": "dcf45ca7c8b3232b",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "dcf45ca7c8b3232b",
+        "type": "ui_tab",
+        "name": "SmartFarm",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0449b3b1fea99d52",
+        "type": "ui_tab",
+        "name": "Demo",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

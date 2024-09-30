@@ -1,0 +1,1291 @@
+[
+    {
+        "id": "1dac9b3aa4b44bd0",
+        "type": "tab",
+        "label": "Control",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "28eef766a4708f09",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"settings\":{\"disableDevices\":[0]}}",
+        "payloadType": "json",
+        "x": 280,
+        "y": 100,
+        "wires": [
+            [
+                "59e224b34a3fb05d"
+            ]
+        ]
+    },
+    {
+        "id": "bea9b52e52b92271",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Timer:1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a098e16db5e3c5e1",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Timer",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "59e224b34a3fb05d",
+        "type": "json",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 400,
+        "y": 140,
+        "wires": [
+            [
+                "679ba04001c62ee2",
+                "bea9b52e52b92271"
+            ]
+        ]
+    },
+    {
+        "id": "0ee72003cf689289",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "disable device1",
+        "props": [
+            {
+                "p": "disableDevice",
+                "v": "Device1",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "679ba04001c62ee2"
+            ]
+        ]
+    },
+    {
+        "id": "25b1407d0c6298bf",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "props": [
+            {
+                "p": "getStatus",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 260,
+        "y": 440,
+        "wires": [
+            [
+                "679ba04001c62ee2"
+            ]
+        ]
+    },
+    {
+        "id": "5f2da92c1f92db5f",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "disable device1",
+        "props": [
+            {
+                "p": "disableDevice",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 300,
+        "wires": [
+            [
+                "679ba04001c62ee2"
+            ]
+        ]
+    },
+    {
+        "id": "f0da46e3d40bd69c",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "enable device1",
+        "props": [
+            {
+                "p": "enableDevice",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 230,
+        "y": 380,
+        "wires": [
+            [
+                "679ba04001c62ee2"
+            ]
+        ]
+    },
+    {
+        "id": "97cdcba50b4f0c18",
+        "type": "json",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 300,
+        "y": 600,
+        "wires": [
+            [
+                "7c6e1f7ed7e9fdee"
+            ]
+        ]
+    },
+    {
+        "id": "23c9efb228ca4f91",
+        "type": "inject",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"timers\":[{\"starttime\":1617775200000,\"days\":[0,1,1,1,1,0,0],\"output\":\"0\",\"event\":true},{\"starttime\":1617789600000,\"days\":[0,1,1,1,1,0,0],\"output\":\"0\",\"event\":false}],\"settings\":{\"disabledDevices\":[]}}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 500,
+        "wires": [
+            [
+                "97cdcba50b4f0c18"
+            ]
+        ]
+    },
+    {
+        "id": "4d160fe0e639688c",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Schedule:1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "1e0172f717851e61",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Schedule",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "679ba04001c62ee2",
+        "type": "ui_time_scheduler",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "d19ff154904e4a7d",
+        "name": "timers",
+        "startDay": 0,
+        "refresh": 60,
+        "devices": [
+            "Device1",
+            "Device2"
+        ],
+        "singleOff": false,
+        "onlySendChange": true,
+        "customPayload": false,
+        "eventMode": false,
+        "eventOptions": [],
+        "sendTopic": true,
+        "lat": "",
+        "lon": "",
+        "customContextStore": "",
+        "outputs": 3,
+        "order": 2,
+        "width": "6",
+        "height": "3",
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "bea9b52e52b92271"
+            ],
+            [
+                "a098e16db5e3c5e1",
+                "9b202e1af60fe025",
+                "fbd13206d3e7e83d"
+            ],
+            [
+                "9b202e1af60fe025",
+                "fbd13206d3e7e83d",
+                "a098e16db5e3c5e1"
+            ]
+        ]
+    },
+    {
+        "id": "7c6e1f7ed7e9fdee",
+        "type": "ui_time_scheduler",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "1433e10878999867",
+        "name": "",
+        "startDay": 0,
+        "refresh": 60,
+        "devices": [
+            "Device1",
+            "Device2"
+        ],
+        "singleOff": false,
+        "onlySendChange": true,
+        "customPayload": false,
+        "eventMode": true,
+        "eventOptions": [
+            {
+                "label": "On",
+                "event": "true"
+            },
+            {
+                "label": "Off",
+                "event": "false"
+            }
+        ],
+        "sendTopic": true,
+        "lat": "52.6284",
+        "lon": "2.4813",
+        "customContextStore": "",
+        "outputs": 3,
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "x": 450,
+        "y": 480,
+        "wires": [
+            [
+                "4d160fe0e639688c"
+            ],
+            [
+                "1e0172f717851e61",
+                "ea022d04b4f9fef0",
+                "0fd86eee1a41738e"
+            ],
+            [
+                "1e0172f717851e61",
+                "0fd86eee1a41738e",
+                "ea022d04b4f9fef0"
+            ]
+        ]
+    },
+    {
+        "id": "9b202e1af60fe025",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ตั้งเวลาปั้มน้ำ 1",
+        "func": "let device = msg.topic;\nlet order = msg.payload;\n\nif (order && device === \"Device1\") {\n    msg.payload = \"PUMP1ON\";\n    \n} else if (!order && device === \"Device1\") {\n    msg.payload = \"PUMP1OFF\";\n    \n} else {\n    return null; // ส่งคืน null ถ้าเงื่อนไขไม่ตรง\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 220,
+        "wires": [
+            [
+                "c56b13913f1a54b5"
+            ]
+        ]
+    },
+    {
+        "id": "fbd13206d3e7e83d",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ตั้งเวลาปั้มน้ำ 2",
+        "func": "let device = msg.topic;\nlet order = msg.payload;\n\nif (order && device === \"Device2\") {\n    msg.payload = \"PUMP2ON\";\n\n} else if (!order && device === \"Device2\") {\n    msg.payload = \"PUMP2OFF\";\n\n} else {\n    return null; // ส่งคืน null ถ้าเงื่อนไขไม่ตรง\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 260,
+        "wires": [
+            [
+                "e04201d37ddc249b"
+            ]
+        ]
+    },
+    {
+        "id": "ea022d04b4f9fef0",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ตั้งเวลาปั้มน้ำ 1",
+        "func": "let device = msg.topic;\nlet order = msg.payload;\n\nif (order && device === \"Device1\") {\n    msg.payload = \"PUMP1ON\";\n\n} else if (!order && device === \"Device1\") {\n    msg.payload = \"PUMP1OFF\";\n\n} else {\n    return null; // ส่งคืน null ถ้าเงื่อนไขไม่ตรง\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 460,
+        "wires": [
+            [
+                "c56b13913f1a54b5"
+            ]
+        ]
+    },
+    {
+        "id": "0fd86eee1a41738e",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ตั้งเวลาปั้มน้ำ 2",
+        "func": "let device = msg.topic;\nlet order = msg.payload;\n\nif (order && device === \"Device2\") {\n    msg.payload = \"PUMP2ON\";\n\n} else if (!order && device === \"Device2\") {\n    msg.payload = \"PUMP2OFF\";\n\n} else {\n    return null; // ส่งคืน null ถ้าเงื่อนไขไม่ตรง\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 500,
+        "wires": [
+            [
+                "e04201d37ddc249b"
+            ]
+        ]
+    },
+    {
+        "id": "a15455478ed44c76",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แสดงสถานะปั้ม 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "msg.payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2080,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7eb5f8acb3ac3476",
+        "type": "comment",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แสดงสถานะปั้มน้ำ",
+        "info": "## แสดงสถานะปั้มน้ำ",
+        "x": 1620,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "c56b13913f1a54b5",
+        "type": "ui_switch",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ควบคุมปั้มน้ำ 1",
+        "label": "ควบคุมปั้มน้ำ 1",
+        "tooltip": "",
+        "group": "2673f9ef2be5acec",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "PUMP1ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "PUMP1OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1660,
+        "y": 280,
+        "wires": [
+            [
+                "a15455478ed44c76",
+                "b5fe25cc048e0327",
+                "7c097dab194123a5",
+                "5c55cfb100fac8df"
+            ]
+        ]
+    },
+    {
+        "id": "e04201d37ddc249b",
+        "type": "ui_switch",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "ควบคุมปั้มน้ำ 2",
+        "label": "ควบคุมปั้มน้ำ 2",
+        "tooltip": "",
+        "group": "2673f9ef2be5acec",
+        "order": 4,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "PUMP2ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "PUMP2OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1660,
+        "y": 340,
+        "wires": [
+            [
+                "6b0efdee43ef9809",
+                "b0f93b311480f874",
+                "7c097dab194123a5",
+                "5c55cfb100fac8df"
+            ]
+        ]
+    },
+    {
+        "id": "15c21dce8f45d738",
+        "type": "ui_template",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "2673f9ef2be5acec",
+        "name": "สถานะปั้ม 2",
+        "order": 2,
+        "width": "3",
+        "height": "4",
+        "format": "<div style=\"\n    font-family: 'Kanit', sans-serif;\n    font-size: 20px;\n    color: #ffffff; /* ใช้ color แทน font-color */\n    font-weight: 500;\n    text-align: center;\n\">\n    สถานะปั้มน้ำ 2\n</div>\n<div id=\"pump-status\"\n    style=\"width: 100px; height: 100px; border-radius: 50%; text-align: center; font-size: 20px; color: white; line-height: 100px; background-color: {{msg.payload === 'PUMP2ON' ? 'green' : 'red'}}; margin: auto;\">\n    {{msg.payload === 'PUMP2ON' ? 'ON' : 'OFF'}}\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 2330,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6b0efdee43ef9809",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แยกค่าสถานะ 2",
+        "func": "// รับค่าจาก Switch (ON/OFF)\nlet switchValue = msg.payload;\n\n// ตรวจสอบว่า switchValue เป็น \"ON\" หรือ \"OFF\" เท่านั้น\nif (switchValue === \"PUMP2ON\" || switchValue === \"PUMP2OFF\") {\n    msg.payload = switchValue;  // เก็บเฉพาะค่า ON หรือ OFF\n} else {\n    // ตรวจสอบว่าค่าที่ได้รับมีรูปแบบเป็น PUMP:2 หรือไม่\n    let pumpMatch = switchValue.match(/^PUMP:(\\d+)$/);\n\n    if (pumpMatch) {\n        // pumpMatch[2] จะเป็นค่าหมายเลขหลังจาก PUMP:\n        msg.payload = `PUMP:${pumpMatch[2]}`; // เก็บค่าที่ได้รับ\n    } else {\n        msg.payload = \"UNKNOWN\";    // ถ้าไม่ใช่ ON, OFF หรือ PUMP:<number> ส่ง UNKNOWN\n    }\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2080,
+        "y": 360,
+        "wires": [
+            [
+                "15c21dce8f45d738",
+                "38bc07ab519e6a74"
+            ]
+        ]
+    },
+    {
+        "id": "38bc07ab519e6a74",
+        "type": "ui_toast",
+        "z": "1dac9b3aa4b44bd0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "ปั้มน้ำ 2",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "ปั้มน้ำ ",
+        "name": "แจ้งเตือนปั้มน้ำ 2",
+        "x": 2340,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b0f93b311480f874",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แสดงสถานะปั้ม 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "msg.payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2080,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b5fe25cc048e0327",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แยกค่าสถานะ 1",
+        "func": "// รับค่าจาก Switch (ON/OFF)\nlet switchValue = msg.payload;\n\n// ตรวจสอบว่า switchValue เป็น \"ON\" หรือ \"OFF\" เท่านั้น\nif (switchValue === \"PUMP1ON\" || switchValue === \"PUMP1OFF\") {\n    msg.payload = switchValue;  // เก็บเฉพาะค่า ON หรือ OFF\n} else {\n    // ตรวจสอบว่าค่าที่ได้รับมีรูปแบบเป็น PUMP:1 หรือไม่\n    let pumpMatch = switchValue.match(/^PUMP:(\\d+)$/);\n\n    if (pumpMatch) {\n        // pumpMatch[2] จะเป็นค่าหมายเลขหลังจาก PUMP:\n        msg.payload = `PUMP:${pumpMatch[1]}`; // เก็บค่าที่ได้รับ\n    } else {\n        msg.payload = \"UNKNOWN\";    // ถ้าไม่ใช่ ON, OFF หรือ PUMP:<number> ส่ง UNKNOWN\n    }\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2080,
+        "y": 220,
+        "wires": [
+            [
+                "3fab2bddcc2cdddd",
+                "db49cfce162ddf2e"
+            ]
+        ]
+    },
+    {
+        "id": "3fab2bddcc2cdddd",
+        "type": "ui_template",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "2673f9ef2be5acec",
+        "name": "สถานะปั้ม 1",
+        "order": 1,
+        "width": "3",
+        "height": "4",
+        "format": "<div style=\"\n    font-family: 'Kanit', sans-serif;\n    font-size: 20px;\n    color: #ffffff; /* ใช้ color แทน font-color */\n    font-weight: 500;\n    text-align: center;\n\">\n    สถานะปั้มน้ำ 1\n</div>\n<div id=\"pump-status\"\n    style=\"width: 100px; height: 100px; border-radius: 50%; text-align: center; font-size: 20px; color: white; line-height: 100px; background-color: {{msg.payload === 'PUMP1ON' ? 'green' : 'red'}}; margin: auto;\">\n    {{msg.payload === 'PUMP1ON' ? 'ON' : 'OFF'}}\n</div>\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 2330,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db49cfce162ddf2e",
+        "type": "ui_toast",
+        "z": "1dac9b3aa4b44bd0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "ปั้มน้ำ 1",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "ปั้มน้ำ ",
+        "name": "แจ้งเตือนปั้มน้ำ 1",
+        "x": 2340,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "7c097dab194123a5",
+        "type": "serial out",
+        "z": "1dac9b3aa4b44bd0",
+        "d": true,
+        "name": "Arduino_out2",
+        "serial": "4ec3ae4e5672af7c",
+        "x": 1950,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "3638c0ec38b9bbe5",
+        "type": "comment",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แสดงสถานะหลอดไฟ",
+        "info": "## แสดงสถานะหลอดไฟ",
+        "x": 1650,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "0bd6c89b0b9a4c43",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Status_Fan",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "msg.payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2070,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "8caf4355d5c06d77",
+        "type": "comment",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แสดงสถานะพัดลม",
+        "info": "## แสดงสถานะพัดลม",
+        "x": 1660,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "c187c308cb0631fc",
+        "type": "ui_toast",
+        "z": "1dac9b3aa4b44bd0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "พัดลม",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "พัดลม",
+        "name": "Fan",
+        "x": 2310,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "40182869383d5755",
+        "type": "ui_template",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "2c86b88fb722410f",
+        "name": "Fan",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "format": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css\" />\n<div class=\"fan-container\">\n    <i id=\"fan-icon\" class=\"fa-solid fa-fan fan-icon\"></i>\n    <br /><br />\n</div>\n\n<script>\n    function updateFan(status) {\n        const fanIcon = document.getElementById('fan-icon');\n        const statusElement = document.getElementById('status');\n\n        if (status === 'Fan_ON') {\n            fanIcon.style.animation = 'fananim 0.5s linear infinite';\n        } else {\n            fanIcon.style.animation = 'none';\n        }\n    }\n\n    // ตั้งค่ารับค่าจาก Node-RED\n    (function(scope) {\n        scope.$watch('msg.payload', function(value) {\n            if (value) {\n                updateFan(value); // เรียกใช้ฟังก์ชันที่ถูกต้อง\n            }\n        });\n    })(scope);\n</script>\n\n<style>\n    @keyframes fananim {\n        100% {\n            transform: rotate(360deg);\n        }\n    }\n\n    .fan-icon {\n        font-size: 120px;\n        color: aqua;\n        text-align: center;\n    }\n\n    .fan-container {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        height: 50vh;\n        background-color: #1e1e1e;\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 2310,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8d65491b1c7e8be7",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แยกค่าสถานะ",
+        "func": "// รับค่าจาก Switch (Fan_ON/Fan_OFF)\nlet switchValue = msg.payload;\n\n// ตรวจสอบว่า switchValue เป็น \"Fan_ON\" หรือ \"Fan_OFF\" เท่านั้น\nif (switchValue === \"Fan_ON\" || switchValue === \"Fan_OFF\") {\n    msg.payload = switchValue;  // เก็บเฉพาะค่า Fan_ON หรือ Fan_OFF\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2070,
+        "y": 820,
+        "wires": [
+            [
+                "40182869383d5755",
+                "c187c308cb0631fc"
+            ]
+        ]
+    },
+    {
+        "id": "cf72d812894b4862",
+        "type": "ui_switch",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Fan",
+        "label": "Fan",
+        "tooltip": "",
+        "group": "2c86b88fb722410f",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "Fan_ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "Fan_OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1650,
+        "y": 780,
+        "wires": [
+            [
+                "8d65491b1c7e8be7",
+                "0bd6c89b0b9a4c43",
+                "7c097dab194123a5",
+                "5c55cfb100fac8df"
+            ]
+        ]
+    },
+    {
+        "id": "163892649c1f1313",
+        "type": "ui_switch",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Light",
+        "label": "Light",
+        "tooltip": "",
+        "group": "c2dd520cc04c7b94",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "Light_ON",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "Light_OFF",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1650,
+        "y": 640,
+        "wires": [
+            [
+                "e86ce99915366391",
+                "6a378d298133ba5b",
+                "7c097dab194123a5",
+                "5c55cfb100fac8df"
+            ]
+        ]
+    },
+    {
+        "id": "e86ce99915366391",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "แยกค่าสถานะ",
+        "func": "// รับค่าจาก Switch (Light_ON/Light_OFF)\nlet switchValue = msg.payload;\n\n// ตรวจสอบว่า switchValue เป็น \"Light_ON\" หรือ \"Light_OFF\" เท่านั้น\nif (switchValue === \"Light_ON\" || switchValue === \"Light_OFF\") {\n    msg.payload = switchValue;  // เก็บเฉพาะค่า Light_ON หรือ Light_OFF\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2070,
+        "y": 660,
+        "wires": [
+            [
+                "9f1cb0a99a1fb56b",
+                "5916dcccddf2e6e7"
+            ]
+        ]
+    },
+    {
+        "id": "6a378d298133ba5b",
+        "type": "debug",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Status_Light",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "msg.payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2070,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "9f1cb0a99a1fb56b",
+        "type": "ui_template",
+        "z": "1dac9b3aa4b44bd0",
+        "group": "c2dd520cc04c7b94",
+        "name": "Light",
+        "order": 1,
+        "width": "6",
+        "height": "5",
+        "format": "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css\">\n<div id=\"light-status\"\n    style=\"width: 100px; height: 100px; border-radius: 50%; text-align: center; color: white; margin: auto; position: relative;\">\n    <i class=\"fas {{msg.payload === 'Light_ON' ? 'fa-lightbulb' : 'fa-lightbulb-slash'}}\"\n       style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 100px; color: yellow;\">\n    </i>\n    <i class=\"fas {{msg.payload === 'Light_OFF' ? 'fa-lightbulb' : 'fa-lightbulb-slash'}}\"\n        style=\"position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 100px; color: gray;\">\n    </i>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 2310,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5916dcccddf2e6e7",
+        "type": "ui_toast",
+        "z": "1dac9b3aa4b44bd0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "หลอดไฟ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Light",
+        "name": "Light",
+        "x": 2310,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "f1d82d768526e71f",
+        "type": "serial in",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "In",
+        "serial": "4ec3ae4e5672af7c",
+        "x": 1090,
+        "y": 480,
+        "wires": [
+            [
+                "c21eb4bb2e53627a",
+                "be7d5e0e2483c32c",
+                "4d7c5bcd59107177",
+                "54065fddbf9dbdd7",
+                "4dc442d10d9a2d68",
+                "1c9d7f27a939b45d",
+                "c0024bf918fe8551",
+                "36b20689b9f21946"
+            ]
+        ]
+    },
+    {
+        "id": "9e5fecf43f42b4bf",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Min&Max_Soil",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\nlet Soil_moisture = flow.get(\"Soil_moisture\") || {\n    Min: null,\n    Max: null,\n};\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nlines.forEach(line => {\n    if (line.startsWith(\"Min_soil:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        Soil_moisture.Min = isNaN(value) ? null : value;  // ตรวจสอบว่าค่าเป็นตัวเลขหรือไม่\n    } else if (line.startsWith(\"Max_soil:\")) {\n        let value = parseFloat(line.split(\":\")[1].trim());\n        Soil_moisture.Max = isNaN(value) ? null : value;\n    }\n});\n\n// บันทึกค่า Soil_moisture ลงใน flow context เพื่อเก็บค่า\nflow.set(\"Soil_moisture\", Soil_moisture);\n\n// ตรวจสอบว่าค่า Min และ Max ครบแล้วหรือยัง\nif (Soil_moisture.Min !== null && Soil_moisture.Max !== null) {\n    // ถ้าครบแล้ว ส่งค่า Soil_moisture\n    msg.payload = Soil_moisture;\n    // รีเซ็ตค่า Soil_moisture ใน flow context\n    flow.set(\"Soil_moisture\", { Min: null, Max: null });\n    return msg;\n} else {\n    // ถ้ายังไม่ครบ ไม่ส่งข้อมูลออกไป\n    return null;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 840,
+        "wires": [
+            [
+                "2dec95071a1c9eee"
+            ]
+        ]
+    },
+    {
+        "id": "c21eb4bb2e53627a",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Pump1_Off",
+        "func": "\n\nlet data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"PUMP1OFF\") {  // เช็คว่าบรรทัดใดมีค่า \"Low Moisture\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"PUMP1OFF\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Low Moisture\"\n    }\n}\n\n// ถ้าไม่พบ \"Low Moisture\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 300,
+        "wires": [
+            [
+                "c56b13913f1a54b5"
+            ]
+        ]
+    },
+    {
+        "id": "2dec95071a1c9eee",
+        "type": "ui_toast",
+        "z": "1dac9b3aa4b44bd0",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "หลอดไฟ",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "msg.payload",
+        "name": "",
+        "x": 810,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "be7d5e0e2483c32c",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Pump1_On",
+        "func": "\n\nlet data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"PUMP1ON\") {  // เช็คว่าบรรทัดใดมีค่า \"Low Moisture\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"PUMP1ON\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Low Moisture\"\n    }\n}\n\n// ถ้าไม่พบ \"Low Moisture\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 240,
+        "wires": [
+            [
+                "c56b13913f1a54b5"
+            ]
+        ]
+    },
+    {
+        "id": "54065fddbf9dbdd7",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Pump2_Off",
+        "func": "\n\nlet data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"PUMP2OFF\") {  // เช็คว่าบรรทัดใดมีค่า \"Low Moisture\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"PUMP2OFF\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Low Moisture\"\n    }\n}\n\n// ถ้าไม่พบ \"Low Moisture\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 420,
+        "wires": [
+            [
+                "e04201d37ddc249b"
+            ]
+        ]
+    },
+    {
+        "id": "4d7c5bcd59107177",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Pump2_On",
+        "func": "\n\nlet data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"PUMP2ON\") {  // เช็คว่าบรรทัดใดมีค่า \"Low Moisture\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"PUMP2ON\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Low Moisture\"\n    }\n}\n\n// ถ้าไม่พบ \"Low Moisture\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 360,
+        "wires": [
+            [
+                "e04201d37ddc249b"
+            ]
+        ]
+    },
+    {
+        "id": "1c9d7f27a939b45d",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Light_OFF",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"Light_OFF\") {  // เช็คว่าบรรทัดใดมีค่า \"Light_OFF\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"Light_OFF\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Light_OFF\"\n    }\n}\n\n// ถ้าไม่พบ \"Light_OFF\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 620,
+        "wires": [
+            [
+                "163892649c1f1313"
+            ]
+        ]
+    },
+    {
+        "id": "4dc442d10d9a2d68",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Light_ON",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"Light_ON\") {  // เช็คว่าบรรทัดใดมีค่า \"Light_ON\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"Light_ON\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Light_ON\"\n    }\n}\n\n// ถ้าไม่พบ Light_ON\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 560,
+        "wires": [
+            [
+                "163892649c1f1313"
+            ]
+        ]
+    },
+    {
+        "id": "36b20689b9f21946",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Fan_OFF",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"Fan_OFF\") {  // เช็คว่าบรรทัดใดมีค่า \"Fan_OFF\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"Fan_OFF\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Fan_OFF\"\n    }\n}\n\n// ถ้าไม่พบ \"Fan_OFF\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 740,
+        "wires": [
+            [
+                "cf72d812894b4862"
+            ]
+        ]
+    },
+    {
+        "id": "c0024bf918fe8551",
+        "type": "function",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "Fan_ON",
+        "func": "let data = msg.payload;  // ข้อมูลจาก serial output\n\n// แยกแต่ละบรรทัดออกมา\nlet lines = data.split(\"\\n\");\n\n// วนลูปเช็คแต่ละบรรทัด\nfor (let i = 0; i < lines.length; i++) {\n    if (lines[i].trim() === \"Fan_ON\") {  // เช็คว่าบรรทัดใดมีค่า \"Fan_ON\"\n        // เปิดน้ำ 2 ฟาร์ม (อาจกำหนดค่าที่ต้องการลงใน msg.payload)\n        msg.payload = \"Fan_ON\";\n        return msg;  // ส่ง msg ออกไปเมื่อพบคำว่า \"Fan_ON\"\n    }\n}\n\n// ถ้าไม่พบ \"Fan_ON\" ให้ return null เพื่อไม่ส่งอะไรออกไป\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 680,
+        "wires": [
+            [
+                "cf72d812894b4862"
+            ]
+        ]
+    },
+    {
+        "id": "5c55cfb100fac8df",
+        "type": "serial out",
+        "z": "1dac9b3aa4b44bd0",
+        "name": "",
+        "serial": "88fcf6f197113f3c",
+        "x": 1970,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "d19ff154904e4a7d",
+        "type": "ui_group",
+        "name": "timer",
+        "tab": "b059073edf59e633",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1433e10878999867",
+        "type": "ui_group",
+        "name": "Schedule",
+        "tab": "b059073edf59e633",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2673f9ef2be5acec",
+        "type": "ui_group",
+        "name": "ปั้มน้ำ",
+        "tab": "b059073edf59e633",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4ec3ae4e5672af7c",
+        "type": "serial-port",
+        "name": "Arduino_In1",
+        "serialport": "/dev/ttyACM1",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "2c86b88fb722410f",
+        "type": "ui_group",
+        "name": "Fan",
+        "tab": "b059073edf59e633",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c2dd520cc04c7b94",
+        "type": "ui_group",
+        "name": "Light",
+        "tab": "b059073edf59e633",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "88fcf6f197113f3c",
+        "type": "serial-port",
+        "name": "Arduino_out2",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "115200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "b059073edf59e633",
+        "type": "ui_tab",
+        "name": "ควบคุมอุปกรณ์",
+        "icon": "settings",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
