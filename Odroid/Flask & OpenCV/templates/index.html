@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+    <style>
+        #toggleDetection {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Face Detection</h1>
+    <img src="{{ url_for('video_feed') }}" width="600">
+    <button id="toggleDetection">Toggle Face Detection</button>
+
+    <script>
+        document.getElementById("toggleDetection").onclick = function() {
+            fetch('/toggle_detection', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => alert("Face detection is now " + data.status));
+        };
+    </script>
+</body>
+</html>
